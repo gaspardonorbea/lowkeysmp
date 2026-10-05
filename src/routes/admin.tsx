@@ -129,7 +129,10 @@ function Players() {
     await supabase.from("players").insert({ name: name.trim().slice(0, 32), role: role.trim().slice(0, 40) || "Speler" });
     setName(""); refresh("players");
   };
-  const update = async (id: string, patch: Record<string, unknown>) => {
+  const update = async (
+    id: string,
+    patch: { name?: string; role?: string; is_dead?: boolean; died_at?: string | null; death_cause?: string | null },
+  ) => {
     await supabase.from("players").update(patch).eq("id", id);
     refresh("players");
   };

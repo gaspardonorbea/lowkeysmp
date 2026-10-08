@@ -15,6 +15,13 @@
       "when": 1791486233040,
       "tag": "0001_site_events",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791488723786,
+      "tag": "0002_whitelist_requests",
+      "breakpoints": true
     }
   ]
 }

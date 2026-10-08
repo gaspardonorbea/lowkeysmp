@@ -128,6 +128,30 @@ export type Database = {
         }
         Relationships: []
       }
+      whitelist_requests: {
+        Row: {
+          created_at: string
+          id: string
+          irl_name: string
+          mc_name: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          irl_name: string
+          mc_name: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          irl_name?: string
+          mc_name?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

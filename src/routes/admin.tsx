@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useAnnouncements, usePlayers, useHours } from "@/lib/smp";
+import { sendPush } from "@/lib/notify";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -95,7 +96,8 @@ function Announcements() {
   const [body, setBody] = useState("");
   const add = async (e: React.FormEvent) => {
     e.preventDefault();
-    await supabase.from("announcements").insert({ title: title.trim().slice(0, 200), body: body.slice(0, 5000) });
+    const { error } = await supabase.from("announcements").insert({ title: title.trim().slice(0, 200), body: body.slice(0, 5000) });
+    if (!error) sendPush("nieuws", `📢 ${title.trim()}`, body.slice(0, 300));
     setTitle(""); setBody(""); refresh("announcements");
   };
   return (
@@ -151,7 +153,10 @@ function Players() {
               <input className="field flex-1" defaultValue={p.name} onBlur={(e) => e.target.value !== p.name && update(p.id, { name: e.target.value.slice(0, 32) })} />
               <input className="field w-32" defaultValue={p.role} onBlur={(e) => e.target.value !== p.role && update(p.id, { role: e.target.value.slice(0, 40) })} />
               <label className="flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={p.is_dead} onChange={(e) => update(p.id, { is_dead: e.target.checked, died_at: e.target.checked ? new Date().toISOString() : null, death_cause: e.target.checked ? p.death_cause : null })} />
+                <input type="checkbox" checked={p.is_dead} onChange={(e) => {
+                  update(p.id, { is_dead: e.target.checked, died_at: e.target.checked ? new Date().toISOString() : null, death_cause: e.target.checked ? p.death_cause : null });
+                  if (e.target.checked) sendPush("deaths", `☠ ${p.name} is dood`, `${p.name} is gestorven op LowkeySMP.`);
+                }} />
                 Dood
               </label>
               <button className="text-sm text-destructive underline" onClick={async () => { await supabase.from("players").delete().eq("id", p.id); refresh("players"); }}>Verwijder</button>

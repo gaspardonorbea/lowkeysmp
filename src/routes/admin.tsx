@@ -46,6 +46,7 @@ function Admin() {
         <p className="block-card p-5">Je bent ingelogd maar geen beheerder. Vraag de owner om toegang.</p>
       ) : (
         <div className="space-y-12">
+          <Stats />
           <Announcements />
           <Players />
           <Hours />
@@ -206,6 +207,43 @@ function Hours() {
         <input className="field" placeholder="Uren" value={hours} onChange={(e) => setHours(e.target.value)} required />
         <button className="btn-block">+</button>
       </form>
+    </section>
+  );
+}
+
+function Stats() {
+  const [s, setS] = useState<{ label: string; value: number }[] | null>(null);
+  useEffect(() => {
+    supabase
+      .from("site_events")
+      .select("kind, visitor_id, created_at")
+      .limit(10000)
+      .then(({ data }) => {
+        const rows = data ?? [];
+        const uniq = (k: string, since = 0) =>
+          new Set(rows.filter((r) => r.kind === k && +new Date(r.created_at) >= since).map((r) => r.visitor_id)).size;
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        setS([
+          { label: "Bezoekers vandaag", value: uniq("visit", +today) },
+          { label: "Bezoekers totaal", value: uniq("visit") },
+          { label: "Bezoeken totaal", value: rows.filter((r) => r.kind === "visit").length },
+          { label: "📢 Meldingen aan", value: uniq("sub_nieuws") },
+          { label: "☠ Dood meldingen aan", value: uniq("sub_deaths") },
+        ]);
+      });
+  }, []);
+  return (
+    <section>
+      <h2 className="mb-4 text-2xl font-bold">Statistieken</h2>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {(s ?? []).map((x) => (
+          <div key={x.label} className="block-card p-4">
+            <p className="font-pixel text-3xl text-primary">{x.value}</p>
+            <p className="text-xs text-muted-foreground">{x.label}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-2 text-xs text-muted-foreground">Meldingen = aantal toestellen dat op "Aanzetten" tikte.</p>
     </section>
   );
 }

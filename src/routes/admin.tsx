@@ -46,6 +46,7 @@ function Admin() {
         <p className="block-card p-5">Je bent ingelogd maar geen beheerder. Vraag de owner om toegang.</p>
       ) : (
         <div className="space-y-12">
+          <Stats />
           <Announcements />
           <Players />
           <Hours />

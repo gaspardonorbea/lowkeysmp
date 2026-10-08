@@ -3,6 +3,8 @@ import hero from "@/assets/hero.jpg";
 import logo from "@/assets/logo-smp.png.asset.json";
 import { useAnnouncements, usePlayers, useHours, fmtDate } from "@/lib/smp";
 import { TOPICS } from "@/lib/notify";
+import { track } from "@/lib/track";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,6 +31,7 @@ function Index() {
   const ann = useAnnouncements();
   const players = usePlayers();
   const hours = useHours();
+  useEffect(() => track("visit"), []);
   const alive = players.data?.filter((p) => !p.is_dead) ?? [];
   const dead = (players.data?.filter((p) => p.is_dead) ?? []).sort(
     (a, b) => +new Date(b.died_at ?? 0) - +new Date(a.died_at ?? 0),
@@ -141,7 +144,7 @@ function Index() {
               <div key={k} className="border-2 border-border p-4">
                 <p className="font-pixel font-bold">{label}</p>
                 <code className="mt-1 block break-all text-xs text-secondary">{TOPICS[k]}</code>
-                <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} className="btn-block mt-3">Aanzetten</a>
+                <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3">Aanzetten</a>
               </div>
             ))}
           </div>

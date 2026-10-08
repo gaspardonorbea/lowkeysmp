@@ -9,7 +9,10 @@ export async function sendPush(topic: keyof typeof TOPICS, title: string, messag
     await fetch(`https://ntfy.sh/${TOPICS[topic]}`, {
       method: "POST",
       body: message || title,
-      headers: { Title: encodeURIComponent(title).length === title.length ? title : "LowkeySMP", Tags: topic === "deaths" ? "skull" : "loudspeaker" },
+      headers: {
+        Title: title.replace(/[^\x20-\x7E]/g, "").trim() || "LowkeySMP",
+        Tags: topic === "deaths" ? "skull" : "loudspeaker",
+      },
     });
   } catch {
     /* notifications are best-effort */

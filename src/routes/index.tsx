@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero.jpg";
 import logo from "@/assets/logo-smp.png.asset.json";
 import { useAnnouncements, usePlayers, useHours, fmtDate } from "@/lib/smp";
+import { TOPICS } from "@/lib/notify";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -124,6 +125,26 @@ function Index() {
               <span className="text-primary">{h.hours}</span>
             </div>
           ))}
+        </div>
+      </Section>
+
+      <Section id="meldingen" title="Meldingen op je gsm">
+        <div className="block-card space-y-5 p-6">
+          <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
+            <li>Download de gratis app <b className="text-foreground">ntfy</b> (
+              <a className="underline" href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noreferrer">Android</a> /{" "}
+              <a className="underline" href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noreferrer">iPhone</a>).</li>
+            <li>Tik hieronder op wat je wilt volgen, of voeg de naam toe in de app met de +.</li>
+          </ol>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {([["nieuws", "📢 Aankondigingen"], ["deaths", "☠ Dood meldingen"]] as const).map(([k, label]) => (
+              <div key={k} className="border-2 border-border p-4">
+                <p className="font-pixel font-bold">{label}</p>
+                <code className="mt-1 block break-all text-xs text-secondary">{TOPICS[k]}</code>
+                <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} className="btn-block mt-3">Aanzetten</a>
+              </div>
+            ))}
+          </div>
         </div>
       </Section>
 

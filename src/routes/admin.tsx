@@ -47,6 +47,7 @@ function Admin() {
       ) : (
         <div className="space-y-12">
           <Stats />
+          <Whitelist />
           <Announcements />
           <Players />
           <Hours />
@@ -141,7 +142,7 @@ function Players() {
   };
   return (
     <section>
-      <h2 className="mb-4 text-2xl font-bold">Namenblad & deaths</h2>
+      <h2 className="mb-4 text-2xl font-bold">Spelers & deaths</h2>
       <form onSubmit={add} className="block-card mb-4 flex flex-wrap gap-3 p-4">
         <input className="field flex-1" placeholder="Minecraft naam" value={name} onChange={(e) => setName(e.target.value)} required />
         <input className="field w-32" placeholder="Rol" value={role} onChange={(e) => setRole(e.target.value)} />
@@ -207,6 +208,47 @@ function Hours() {
         <input className="field" placeholder="Uren" value={hours} onChange={(e) => setHours(e.target.value)} required />
         <button className="btn-block">+</button>
       </form>
+    </section>
+  );
+}
+
+function Whitelist() {
+  const qc = useQueryClient();
+  const [rows, setRows] = useState<{ id: string; mc_name: string; irl_name: string; status: string; created_at: string }[]>([]);
+  const [copied, setCopied] = useState("");
+  const load = () =>
+    supabase.from("whitelist_requests").select("*").eq("status", "pending").order("created_at").then(({ data }) => setRows(data ?? []));
+  useEffect(() => { load(); }, []);
+  const accept = async (r: (typeof rows)[number]) => {
+    await supabase.from("whitelist_requests").update({ status: "accepted" }).eq("id", r.id);
+    await supabase.from("players").insert({ name: r.mc_name, role: "Speler" });
+    navigator.clipboard?.writeText(`/whitelist add ${r.mc_name}`);
+    setCopied(r.mc_name);
+    qc.invalidateQueries({ queryKey: ["players"] });
+    load();
+  };
+  const reject = async (id: string) => {
+    await supabase.from("whitelist_requests").update({ status: "rejected" }).eq("id", id);
+    load();
+  };
+  return (
+    <section>
+      <h2 className="mb-4 text-2xl font-bold">Whitelist aanvragen</h2>
+      {copied && <p className="mb-3 text-sm text-primary">"/whitelist add {copied}" gekopieerd — plak het in de serverconsole.</p>}
+      {rows.length === 0 && <p className="text-muted-foreground">Geen openstaande aanvragen.</p>}
+      <div className="space-y-3">
+        {rows.map((r) => (
+          <div key={r.id} className="block-card flex flex-wrap items-center gap-3 p-4">
+            <img src={`https://mc-heads.net/avatar/${encodeURIComponent(r.mc_name)}/40`} alt="" className="h-10 w-10 [image-rendering:pixelated]" />
+            <div className="flex-1">
+              <p className="font-pixel font-bold">{r.mc_name}</p>
+              <p className="text-sm text-muted-foreground">{r.irl_name}</p>
+            </div>
+            <button className="btn-block" onClick={() => accept(r)}>Toegevoegd</button>
+            <button className="text-sm text-destructive underline" onClick={() => reject(r.id)}>Weiger</button>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

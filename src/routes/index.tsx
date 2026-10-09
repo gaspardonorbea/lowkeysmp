@@ -5,6 +5,7 @@ import { useAnnouncements, usePlayers, useHours, fmtDate } from "@/lib/smp";
 import { TOPICS } from "@/lib/notify";
 import { track } from "@/lib/track";
 import { useEffect } from "react";
+import { ServerStatus, Countdown, WhitelistForm } from "@/components/ServerExtras";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,6 +45,7 @@ function Index() {
           <a href="#top" className="text-lg font-bold text-primary">LowkeySMP</a>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <a href="#nieuws" className="hover:text-foreground">Nieuws</a>
+            <a href="#server" className="hover:text-foreground">Server</a>
             <a href="#spelers" className="hover:text-foreground">Spelers</a>
             <a href="#deaths" className="hover:text-foreground">Deaths</a>
             <a href="#uren" className="hover:text-foreground">Uren</a>
@@ -57,7 +59,9 @@ function Index() {
         <div className="relative z-10 px-5 text-center">
           <img src={logo.url} alt="LowkeySMP" className="float-slow mx-auto w-[min(520px,85vw)] drop-shadow-2xl" />
           <p className="mt-6 font-pixel text-2xl text-foreground md:text-3xl">lowkey peak.</p>
+          <Countdown />
           <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="#server" className="btn-block">Server IP</a>
             <a href="#nieuws" className="btn-block">Laatste nieuws</a>
           </div>
           <div className="mt-8 flex justify-center gap-6 font-pixel text-sm">
@@ -83,7 +87,15 @@ function Index() {
         </div>
       </Section>
 
-      <Section id="spelers" title="Namenblad">
+      <Section id="server" title="Server">
+        <ServerStatus />
+      </Section>
+
+      <Section id="whitelist" title="Whitelist aanvragen">
+        <WhitelistForm />
+      </Section>
+
+      <Section id="spelers" title="Spelers">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {players.data?.map((p) => (
             <div key={p.id} className={`block-card p-4 text-center ${p.is_dead ? "opacity-50 grayscale" : ""}`}>

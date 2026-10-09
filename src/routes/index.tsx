@@ -118,8 +118,9 @@ function Index() {
 
       <Section id="spelers" title="Spelers">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {players.data?.map((p) => (
-            <div key={p.id} className={`block-card p-4 text-center ${p.is_dead ? "opacity-50 grayscale" : ""}`}>
+          {players.data?.map((p, i) => (
+            <Reveal key={p.id} delay={i * 60}>
+            <div className={`block-card card-hover p-4 text-center ${p.is_dead ? "opacity-50 grayscale" : ""}`}>
               <img
                 src={`https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/64`}
                 alt={p.name}
@@ -130,6 +131,7 @@ function Index() {
               <p className="text-xs text-secondary">{p.role}</p>
               {p.is_dead && <p className="mt-1 text-xs text-destructive">☠ dood</p>}
             </div>
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -139,8 +141,9 @@ function Index() {
           <p className="text-muted-foreground">Nog niemand dood. Lowkey peak.</p>
         ) : (
           <ol className="space-y-3">
-            {dead.map((p) => (
-              <li key={p.id} className="block-card flex items-center gap-4 p-4">
+            {dead.map((p, i) => (
+              <Reveal key={p.id} delay={i * 80}>
+              <li className="block-card card-hover flex items-center gap-4 p-4">
                 <img src={`https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/40`} alt="" className="h-10 w-10 [image-rendering:pixelated]" />
                 <div className="flex-1">
                   <p className="font-pixel font-bold">{p.name}</p>
@@ -148,12 +151,14 @@ function Index() {
                 </div>
                 <span className="text-right text-xs text-destructive">{fmtDate(p.died_at)}</span>
               </li>
+              </Reveal>
             ))}
           </ol>
         )}
       </Section>
 
       <Section id="uren" title="Openingsuren">
+        <Reveal>
         <div className="block-card divide-y-2 divide-border">
           {hours.data?.map((h) => (
             <div key={h.id} className="flex justify-between p-4 font-pixel">

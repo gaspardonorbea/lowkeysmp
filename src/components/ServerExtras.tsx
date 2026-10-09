@@ -5,54 +5,17 @@ export const SERVER_IP = "170.23.139.89:25606";
 // 7 november 14:00 Belgische tijd (CET, UTC+1)
 export const LAUNCH_AT = new Date("2026-11-07T14:00:00+01:00").getTime();
 
-type Status = { online: boolean; players?: { online: number; max: number; list?: { name_clean: string }[] }; version?: { name_clean?: string } };
-
-export function ServerStatus() {
-  const [s, setS] = useState<Status | null>(null);
+export function ServerIp() {
   const [copied, setCopied] = useState(false);
-  useEffect(() => {
-    const load = () =>
-      fetch(`https://api.mcstatus.io/v2/status/java/${SERVER_IP}`)
-        .then((r) => r.json())
-        .then(setS)
-        .catch(() => setS({ online: false }));
-    load();
-    const t = setInterval(load, 60000);
-    return () => clearInterval(t);
-  }, []);
   const copy = () => {
     navigator.clipboard.writeText(SERVER_IP);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
   return (
-    <div className="block-card space-y-4 p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3 font-pixel text-xl">
-          <span className={`inline-block h-4 w-4 ${s?.online ? "animate-pulse bg-success" : "bg-destructive"}`} />
-          {s === null ? "Laden…" : s.online ? "Online" : "Offline"}
-        </div>
-        {s?.online && (
-          <span className="font-pixel text-muted-foreground">
-            <span className="text-primary">{s.players?.online ?? 0}</span> / {s.players?.max ?? 0} spelers
-            {s.version?.name_clean && <> · Java {s.version.name_clean}</>}
-          </span>
-        )}
-      </div>
-      <div className="flex flex-wrap items-center gap-3">
-        <code className="border-2 border-border px-3 py-2 font-pixel text-secondary">{SERVER_IP}</code>
-        <button onClick={copy} className="btn-block">{copied ? "Gekopieerd!" : "Kopieer IP"}</button>
-      </div>
-      {s?.online && !!s.players?.list?.length && (
-        <div className="flex flex-wrap gap-3">
-          {s.players.list.map((p) => (
-            <div key={p.name_clean} className="flex items-center gap-2 border-2 border-border px-2 py-1 text-sm">
-              <img src={`https://mc-heads.net/avatar/${encodeURIComponent(p.name_clean)}/24`} alt="" className="h-6 w-6 [image-rendering:pixelated]" />
-              {p.name_clean}
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="block-card flex flex-wrap items-center gap-3 p-6">
+      <code className="border-2 border-border px-3 py-2 font-pixel text-secondary">{SERVER_IP}</code>
+      <button onClick={copy} className="btn-block">{copied ? "Gekopieerd!" : "Kopieer IP"}</button>
     </div>
   );
 }

@@ -4,8 +4,27 @@ import logo from "@/assets/logo-smp.png.asset.json";
 import { useAnnouncements, usePlayers, useHours, fmtDate } from "@/lib/smp";
 import { TOPICS } from "@/lib/notify";
 import { track } from "@/lib/track";
-import { useEffect } from "react";
-import { ServerStatus, Countdown, WhitelistForm } from "@/components/ServerExtras";
+import { useEffect, useRef } from "react";
+import { ServerIp, Countdown, WhitelistForm } from "@/components/ServerExtras";
+
+function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { el.classList.add("reveal-in"); io.disconnect(); } },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={`reveal ${className}`} style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}>
+      {children}
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({

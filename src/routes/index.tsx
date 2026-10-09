@@ -13,7 +13,7 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { el.classList.add("reveal-in"); io.disconnect(); } },
+      ([e]) => { if (e?.isIntersecting) { el.classList.add("reveal-in"); io.disconnect(); } },
       { threshold: 0.15 },
     );
     io.observe(el);

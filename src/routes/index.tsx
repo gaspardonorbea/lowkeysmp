@@ -167,9 +167,11 @@ function Index() {
             </div>
           ))}
         </div>
+        </Reveal>
       </Section>
 
       <Section id="meldingen" title="Meldingen op je gsm">
+        <Reveal>
         <div className="block-card space-y-5 p-6">
           <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
             <li>Download de gratis app <b className="text-foreground">ntfy</b> (

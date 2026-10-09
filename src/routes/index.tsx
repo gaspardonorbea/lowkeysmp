@@ -103,16 +103,17 @@ function Index() {
               <h3 className="text-xl font-bold">{a.title}</h3>
               <p className="mt-2 whitespace-pre-line text-muted-foreground">{a.body}</p>
             </article>
+            </Reveal>
           ))}
         </div>
       </Section>
 
       <Section id="server" title="Server">
-        <ServerStatus />
+        <Reveal><ServerIp /></Reveal>
       </Section>
 
       <Section id="whitelist" title="Whitelist aanvragen">
-        <WhitelistForm />
+        <Reveal><WhitelistForm /></Reveal>
       </Section>
 
       <Section id="spelers" title="Spelers">

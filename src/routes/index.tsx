@@ -40,8 +40,8 @@ export const Route = createFileRoute("/")({
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="mx-auto max-w-5xl px-5 py-16">
-      <h2 className="mb-8 text-3xl font-bold text-primary md:text-4xl">{title}</h2>
+    <section id={id} className="mx-auto max-w-5xl scroll-mt-20 px-5 py-16">
+      <Reveal><h2 className="mb-8 text-3xl font-bold text-primary md:text-4xl">{title}</h2></Reveal>
       {children}
     </section>
   );

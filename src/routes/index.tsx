@@ -76,14 +76,14 @@ function Index() {
         <img src={hero} alt="" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background" />
         <div className="relative z-10 px-5 text-center">
-          <img src={logo.url} alt="LowkeySMP" className="float-slow mx-auto w-[min(520px,85vw)] drop-shadow-2xl" />
-          <p className="mt-6 font-pixel text-2xl text-foreground md:text-3xl">lowkey peak.</p>
+          <img src={logo.url} alt="LowkeySMP" className="float-slow pop-in mx-auto w-[min(520px,85vw)] drop-shadow-2xl" />
+          <p className="pop-in mt-6 font-pixel text-2xl text-foreground md:text-3xl" style={{ animationDelay: "150ms" }}>lowkey peak.</p>
           <Countdown />
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <div className="pop-in mt-8 flex flex-wrap justify-center gap-4" style={{ animationDelay: "300ms" }}>
             <a href="#server" className="btn-block">Server IP</a>
             <a href="#nieuws" className="btn-block">Laatste nieuws</a>
           </div>
-          <div className="mt-8 flex justify-center gap-6 font-pixel text-sm">
+          <div className="pop-in mt-8 flex justify-center gap-6 font-pixel text-sm" style={{ animationDelay: "450ms" }}>
             <span className="block-card px-4 py-2"><span className="text-success">{alive.length}</span> levend</span>
             <span className="block-card px-4 py-2"><span className="text-destructive">{dead.length}</span> dood</span>
           </div>
@@ -93,8 +93,9 @@ function Index() {
       <Section id="nieuws" title="Aankondigingen">
         <div className="space-y-4">
           {ann.data?.length === 0 && <p className="text-muted-foreground">Nog geen nieuws.</p>}
-          {ann.data?.map((a) => (
-            <article key={a.id} className="block-card p-5">
+          {ann.data?.map((a, i) => (
+            <Reveal key={a.id} delay={i * 80}>
+            <article className="block-card card-hover p-5">
               <div className="mb-2 flex items-center gap-3">
                 {a.pinned && <span className="bg-primary px-2 py-0.5 font-pixel text-xs text-primary-foreground">PINNED</span>}
                 <span className="text-xs text-muted-foreground">{fmtDate(a.created_at)}</span>

@@ -6,6 +6,7 @@ import { TOPICS } from "@/lib/notify";
 import { track } from "@/lib/track";
 import { useEffect, useRef } from "react";
 import { ServerIp, Countdown, WhitelistForm } from "@/components/ServerExtras";
+import { Trailers, DonationBoard, useHasTrailers, useHasDonations } from "@/components/TrailersDonations";
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -51,6 +52,8 @@ function Index() {
   const ann = useAnnouncements();
   const players = usePlayers();
   const hours = useHours();
+  const hasTrailers = useHasTrailers();
+  const hasDonations = useHasDonations();
   useEffect(() => track("visit"), []);
   const alive = players.data?.filter((p) => !p.is_dead) ?? [];
   const dead = (players.data?.filter((p) => p.is_dead) ?? []).sort(
@@ -64,6 +67,7 @@ function Index() {
           <a href="#top" className="text-lg font-bold text-primary">LowkeySMP</a>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <a href="#nieuws" className="hover:text-foreground">Nieuws</a>
+            {hasTrailers && <a href="#trailers" className="hover:text-foreground">Trailers</a>}
             <a href="#server" className="hover:text-foreground">Server</a>
             <a href="#spelers" className="hover:text-foreground">Spelers</a>
             <a href="#deaths" className="hover:text-foreground">Deaths</a>
@@ -108,6 +112,12 @@ function Index() {
         </div>
       </Section>
 
+      {hasTrailers && (
+        <Section id="trailers" title="Trailer">
+          <Reveal><Trailers /></Reveal>
+        </Section>
+      )}
+
       <Section id="server" title="Server">
         <Reveal><ServerIp /></Reveal>
       </Section>
@@ -129,6 +139,11 @@ function Index() {
               />
               <p className="font-pixel font-bold">{p.name}</p>
               <p className="text-xs text-secondary">{p.role}</p>
+              {p.team && (
+                <span className={`mt-2 inline-block px-2 py-0.5 font-pixel text-xs text-foreground ${p.team === "noord" ? "bg-team-noord" : "bg-team-zuid"}`}>
+                  Team {p.team === "noord" ? "Noord" : "Zuid"}
+                </span>
+              )}
               {p.is_dead && <p className="mt-1 text-xs text-destructive">☠ dood</p>}
             </div>
             </Reveal>
@@ -156,6 +171,12 @@ function Index() {
           </ol>
         )}
       </Section>
+
+      {hasDonations && (
+        <Section id="donaties" title="💛 Donateurs Hall of Fame">
+          <Reveal><DonationBoard /></Reveal>
+        </Section>
+      )}
 
       <Section id="uren" title="Openingsuren">
         <Reveal>

@@ -27,6 +27,9 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-team-noord: var(--team-noord);
+  --color-team-zuid: var(--team-zuid);
+  --color-gold: var(--gold);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -51,6 +54,9 @@
   --destructive: oklch(0.63 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
   --success: oklch(0.75 0.17 150);
+  --team-noord: oklch(0.62 0.23 25);
+  --team-zuid: oklch(0.62 0.19 255);
+  --gold: oklch(0.85 0.17 85);
   --border: oklch(0.35 0.07 305);
   --input: oklch(0.35 0.07 305);
   --ring: oklch(0.72 0.2 350);
@@ -137,3 +143,9 @@
     box-shadow: 6px 6px 0 0 oklch(0.1 0.04 300), var(--shadow-glow);
   }
 }
+
+@keyframes shine { 0%,100% { box-shadow: 0 0 20px -6px var(--gold); } 50% { box-shadow: 0 0 45px -4px var(--gold); } }
+.gold-glow { animation: shine 2.4s ease-in-out infinite; border-color: var(--gold) !important; }
+@keyframes crown-bob { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-6px) rotate(8deg); } }
+.crown-bob { display: inline-block; animation: crown-bob 2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .gold-glow, .crown-bob { animation: none; } }

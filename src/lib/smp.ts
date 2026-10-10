@@ -42,3 +42,36 @@ export const fmtDate = (d: string | null) =>
   d
     ? new Date(d).toLocaleString("nl-BE", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
     : "";
+
+export function useTrailers() {
+  return useQuery({
+    queryKey: ["trailers"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("trailers").select("*").order("released_at", { ascending: false });
+      if (error) throw error;
+      return Promise.all(
+        data.map(async (t) => {
+          let src: string | null = null;
+          if (t.video_url) {
+            const { data: s } = await supabase.storage.from("trailers").createSignedUrl(t.video_url, 60 * 60 * 24);
+            src = s?.signedUrl ?? null;
+          }
+          return { ...t, src };
+        }),
+      );
+    },
+  });
+}
+
+export function useDonations() {
+  return useQuery({
+    queryKey: ["donations"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("donations").select("*").order("amount", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export const fmtEuro = (n: number) => new Intl.NumberFormat("nl-BE", { style: "currency", currency: "EUR" }).format(n);

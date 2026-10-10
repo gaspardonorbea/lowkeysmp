@@ -38,6 +38,30 @@ export type Database = {
         }
         Relationships: []
       }
+      donations: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          ign: string
+          irl_name: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          id?: string
+          ign: string
+          irl_name?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          ign?: string
+          irl_name?: string
+        }
+        Relationships: []
+      }
       opening_hours: {
         Row: {
           day: string
@@ -68,6 +92,7 @@ export type Database = {
           is_dead: boolean
           name: string
           role: string
+          team: string | null
         }
         Insert: {
           created_at?: string
@@ -77,6 +102,7 @@ export type Database = {
           is_dead?: boolean
           name: string
           role?: string
+          team?: string | null
         }
         Update: {
           created_at?: string
@@ -86,6 +112,7 @@ export type Database = {
           is_dead?: boolean
           name?: string
           role?: string
+          team?: string | null
         }
         Relationships: []
       }
@@ -107,6 +134,33 @@ export type Database = {
           id?: string
           kind?: string
           visitor_id?: string
+        }
+        Relationships: []
+      }
+      trailers: {
+        Row: {
+          created_at: string
+          id: string
+          released_at: string
+          title: string
+          video_url: string | null
+          youtube_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          released_at?: string
+          title: string
+          video_url?: string | null
+          youtube_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          released_at?: string
+          title?: string
+          video_url?: string | null
+          youtube_id?: string | null
         }
         Relationships: []
       }

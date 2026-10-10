@@ -28,7 +28,8 @@ export function Trailers() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   if (!data?.length) return null;
-  const current = data.find((t) => t.id === active) ?? data[0]!;
+   const current = data.find((t) => t.id === active) ?? data[0];
+   if (!current) return null;
   const others = data.filter((t) => t.id !== current.id);
   return (
     <div className="space-y-4">
@@ -83,7 +84,7 @@ export function DonationBoard() {
         <div className="block-card gold-glow relative mx-auto max-w-md border-4 p-8 text-center">
           <span className="crown-bob absolute -top-7 left-1/2 -ml-5 text-5xl">👑</span>
           <img
-            src={`https://mc-heads.net/body/${encodeURIComponent(top.ign)}/120`}
+            src={`https://minotar.net/armor/body/${encodeURIComponent(top.ign.trim())}/120.png`}
             alt={top.ign}
             className="mx-auto mb-4 h-40 [image-rendering:pixelated]"
           />
@@ -98,7 +99,7 @@ export function DonationBoard() {
           {rest.map((d, i) => (
             <div key={d.id} className={`block-card card-hover flex items-center gap-4 p-4 ${i < 2 ? "border-gold" : ""}`}>
               <span className="font-pixel text-2xl text-gold">{i === 0 ? "🥈" : i === 1 ? "🥉" : `#${i + 2}`}</span>
-              <img src={`https://mc-heads.net/avatar/${encodeURIComponent(d.ign)}/48`} alt="" className="h-12 w-12 [image-rendering:pixelated]" />
+              <img src={`https://minotar.net/helm/${encodeURIComponent(d.ign.trim())}/48.png`} alt="" className="h-12 w-12 [image-rendering:pixelated]" />
               <div className="min-w-0 flex-1">
                 <p className="truncate font-pixel font-bold">{d.ign}</p>
                 {d.irl_name && <p className="truncate text-xs text-muted-foreground">{d.irl_name}</p>}

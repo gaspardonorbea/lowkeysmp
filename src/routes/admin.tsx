@@ -13,6 +13,8 @@ export const Route = createFileRoute("/admin")({
       { name: "description", content: "Beheer aankondigingen, spelers, deaths en openingsuren van LowkeySMP." },
       { property: "og:title", content: "Beheer — LowkeySMP" },
       { property: "og:description", content: "Beheerpaneel van LowkeySMP." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Admin,

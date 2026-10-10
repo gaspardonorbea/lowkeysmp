@@ -34,6 +34,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "De Minecraft SMP van de vriendengroep: aankondigingen, spelers, deaths en openingsuren." },
       { property: "og:title", content: "LowkeySMP — lowkey peak" },
       { property: "og:description", content: "Aankondigingen, spelers, deaths en openingsuren van LowkeySMP." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,

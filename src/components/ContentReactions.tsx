@@ -57,7 +57,7 @@ export function ContentReactions({ kind, id }: { kind: "announcement" | "trailer
     setBusy(true); setError("");
     const result = reactions.data?.ownId
       ? await supabase.from("content_likes").delete().eq("id", reactions.data.ownId)
-      : await supabase.from("content_likes").insert({ [column]: id, user_id: session.user.id });
+      : await supabase.from("content_likes").insert({ announcement_id: kind === "announcement" ? id : null, trailer_id: kind === "trailer" ? id : null, user_id: session.user.id });
     if (result.error) setError("Je like kon niet opgeslagen worden. Probeer opnieuw.");
     await qc.invalidateQueries({ queryKey: ["reactions", kind, id] });
     setBusy(false);
@@ -69,7 +69,7 @@ export function ContentReactions({ kind, id }: { kind: "announcement" | "trailer
     const parsed = commentSchema.safeParse({ name, body });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Controleer je reactie."); return; }
     setBusy(true); setError("");
-    const result = await supabase.from("content_comments").insert({ [column]: id, user_id: session.user.id, display_name: parsed.data.name, body: parsed.data.body });
+    const result = await supabase.from("content_comments").insert({ announcement_id: kind === "announcement" ? id : null, trailer_id: kind === "trailer" ? id : null, user_id: session.user.id, display_name: parsed.data.name, body: parsed.data.body });
     if (result.error) setError("Reactie niet geplaatst. Wacht enkele seconden en probeer opnieuw.");
     else { setBody(""); localStorage.setItem("lk_comment_name", parsed.data.name); await qc.invalidateQueries({ queryKey: ["reactions", kind, id] }); }
     setBusy(false);

@@ -7,6 +7,8 @@ import { track } from "@/lib/track";
 import { useEffect, useRef } from "react";
 import { ServerIp, Countdown, WhitelistForm } from "@/components/ServerExtras";
 import { Trailers, DonationBoard, useHasTrailers, useHasDonations } from "@/components/TrailersDonations";
+import { ContentReactions } from "@/components/ContentReactions";
+import { DonationInstructions } from "@/components/DonationInstructions";
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -65,15 +67,16 @@ function Index() {
   return (
     <main>
       <nav className="fixed inset-x-0 top-0 z-20 border-b-2 border-border bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3 font-pixel">
-          <a href="#top" className="text-lg font-bold text-primary">LowkeySMP</a>
-          <div className="flex gap-4 text-sm text-muted-foreground">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 py-3 font-pixel">
+          <a href="#top" aria-label="LowkeySMP — naar boven" className="nav-logo shrink-0"><img src={logo.url} alt="LowkeySMP" className="h-10 w-28 object-contain" /></a>
+          <div className="site-nav flex max-w-full flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <a href="#nieuws" className="hover:text-foreground">Nieuws</a>
             {hasTrailers && <a href="#trailers" className="hover:text-foreground">Trailers</a>}
             <a href="#server" className="hover:text-foreground">Server</a>
             <a href="#spelers" className="hover:text-foreground">Spelers</a>
             <a href="#deaths" className="hover:text-foreground">Deaths</a>
             <a href="#uren" className="hover:text-foreground">Uren</a>
+            <a href="#donaties" className="hover:text-foreground">Doneren</a>
           </div>
         </div>
       </nav>
@@ -82,7 +85,7 @@ function Index() {
         <img src={hero} alt="" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background" />
         <div className="relative z-10 px-5 text-center">
-          <img src={logo.url} alt="LowkeySMP" className="float-slow pop-in mx-auto w-[min(520px,85vw)] drop-shadow-2xl" />
+          <div className="pop-in"><img src={logo.url} alt="LowkeySMP" className="float-slow mx-auto w-[min(520px,85vw)] drop-shadow-2xl" /></div>
           <p className="pop-in mt-6 font-pixel text-2xl text-foreground md:text-3xl" style={{ animationDelay: "150ms" }}>lowkey peak.</p>
           <Countdown />
           <div className="pop-in mt-8 flex flex-wrap justify-center gap-4" style={{ animationDelay: "300ms" }}>
@@ -108,6 +111,7 @@ function Index() {
               </div>
               <h3 className="text-xl font-bold">{a.title}</h3>
               <p className="mt-2 whitespace-pre-line text-muted-foreground">{a.body}</p>
+              <ContentReactions kind="announcement" id={a.id} />
             </article>
             </Reveal>
           ))}
@@ -174,11 +178,10 @@ function Index() {
         )}
       </Section>
 
-      {hasDonations && (
-        <Section id="donaties" title="💛 Donateurs Hall of Fame">
-          <Reveal><DonationBoard /></Reveal>
-        </Section>
-      )}
+      <Section id="donaties" title="💛 Donateurs Hall of Fame">
+        <Reveal><DonationInstructions /></Reveal>
+        {hasDonations && <Reveal><DonationBoard /></Reveal>}
+      </Section>
 
       <Section id="uren" title="Openingsuren">
         <Reveal>

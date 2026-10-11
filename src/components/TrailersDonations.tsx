@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTrailers, useDonations, fmtDate, fmtEuro } from "@/lib/smp";
+import { ContentReactions } from "@/components/ContentReactions";
 
 type Trailer = NonNullable<ReturnType<typeof useTrailers>["data"]>[number];
 
@@ -39,6 +40,7 @@ export function Trailers() {
           <h3 className="font-pixel text-xl font-bold">{current.title}</h3>
           <span className="text-xs text-muted-foreground">{fmtDate(current.released_at)}</span>
         </div>
+        <div className="px-4 pb-4"><ContentReactions key={current.id} kind="trailer" id={current.id} /></div>
       </div>
       {others.length > 0 && (
         <div>

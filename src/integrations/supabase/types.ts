@@ -38,6 +38,90 @@ export type Database = {
         }
         Relationships: []
       }
+      content_comments: {
+        Row: {
+          announcement_id: string | null
+          body: string
+          created_at: string
+          display_name: string
+          id: string
+          trailer_id: string | null
+          user_id: string
+        }
+        Insert: {
+          announcement_id?: string | null
+          body: string
+          created_at?: string
+          display_name: string
+          id?: string
+          trailer_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          announcement_id?: string | null
+          body?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          trailer_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_comments_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "announcements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_comments_trailer_id_fkey"
+            columns: ["trailer_id"]
+            isOneToOne: false
+            referencedRelation: "trailers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_likes: {
+        Row: {
+          announcement_id: string | null
+          created_at: string
+          id: string
+          trailer_id: string | null
+          user_id: string
+        }
+        Insert: {
+          announcement_id?: string | null
+          created_at?: string
+          id?: string
+          trailer_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          announcement_id?: string | null
+          created_at?: string
+          id?: string
+          trailer_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_likes_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "announcements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_likes_trailer_id_fkey"
+            columns: ["trailer_id"]
+            isOneToOne: false
+            referencedRelation: "trailers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       donations: {
         Row: {
           amount: number

@@ -149,3 +149,42 @@
 @keyframes crown-bob { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-6px) rotate(8deg); } }
 .crown-bob { display: inline-block; animation: crown-bob 2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .gold-glow, .crown-bob { animation: none; } }
+
+html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+.site-nav a { position: relative; transition: color 180ms ease, transform 180ms ease; }
+.site-nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -4px;
+  height: 2px; background: var(--primary); transform: scaleX(0);
+  transform-origin: left; transition: transform 200ms ease;
+}
+.site-nav a:hover::after, .site-nav a:focus-visible::after { transform: scaleX(1); }
+.site-nav a:hover { transform: translateY(-2px); }
+.nav-logo { transition: transform 220ms ease; }
+.nav-logo:hover { transform: rotate(-3deg) scale(1.07); }
+.reveal h2 { position: relative; width: fit-content; }
+.reveal h2::after {
+  content: ""; display: block; width: 2.5rem; height: 3px; margin-top: 0.75rem;
+  background: var(--primary); transform: scaleX(0); transform-origin: left;
+  transition: transform 650ms ease 250ms;
+}
+.reveal-in h2::after { transform: scaleX(1); }
+@keyframes discussion-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.discussion-enter { animation: discussion-enter 280ms ease both; }
+@keyframes reaction-pop {
+  0% { transform: scale(0.75); } 55% { transform: scale(1.3); } 100% { transform: scale(1); }
+}
+.reaction-pop { animation: reaction-pop 320ms ease; }
+@keyframes donation-heart {
+  0%, 70%, 100% { transform: scale(1); }
+  78% { transform: scale(1.13); } 86% { transform: scale(1); } 93% { transform: scale(1.09); }
+}
+.donation-heart { animation: donation-heart 3.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .float-slow, .pop-in, .discussion-enter, .reaction-pop, .donation-heart { animation: none; }
+  .site-nav a, .site-nav a::after, .nav-logo, .reveal h2::after, .card-hover, .btn-block { transition: none; }
+  .site-nav a:hover, .nav-logo:hover, .card-hover:hover, .btn-block:hover { transform: none; }
+}

@@ -13,3 +13,4 @@
 
 - Site content (announcements, players/deaths, opening hours) lives in Lovable Cloud tables, editable only by admins via RLS — friends must share one live source of truth.
 - First account to sign up claims admin via the `claim_admin()` RPC — avoids manual role setup for a small friend group.
+- Public comments and like counts use content_comments/content_likes in Lovable Cloud; writes require a signed-in user and ownership is enforced by RLS, with admins allowed to moderate comments and a database cooldown to reduce spam.

@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { ServerIp, Countdown, WhitelistForm } from "@/components/ServerExtras";
 import { Trailers, DonationBoard, useHasTrailers, useHasDonations } from "@/components/TrailersDonations";
 import { ContentReactions } from "@/components/ContentReactions";
+import { Timeline } from "@/components/Timeline";
 import { DonationInstructions } from "@/components/DonationInstructions";
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -71,6 +72,7 @@ function Index() {
           <a href="#top" aria-label="LowkeySMP — naar boven" className="nav-logo shrink-0"><img src={logo.url} alt="LowkeySMP" className="h-10 w-28 object-contain" /></a>
           <div className="site-nav flex max-w-full flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <a href="#nieuws" className="hover:text-foreground">Nieuws</a>
+            <a href="#tijdlijn" className="hover:text-foreground">Tijdlijn</a>
             {hasTrailers && <a href="#trailers" className="hover:text-foreground">Trailers</a>}
             <a href="#server" className="hover:text-foreground">Server</a>
             <a href="#spelers" className="hover:text-foreground">Spelers</a>
@@ -98,6 +100,10 @@ function Index() {
           </div>
         </div>
       </header>
+
+      <Section id="tijdlijn" title="Tijdlijn Seizoen 1">
+        <Reveal><Timeline /></Reveal>
+      </Section>
 
       <Section id="nieuws" title="Aankondigingen">
         <div className="space-y-4">

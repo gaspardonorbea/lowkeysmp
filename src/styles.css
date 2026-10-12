@@ -188,3 +188,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
   .site-nav a, .site-nav a::after, .nav-logo, .reveal h2::after, .card-hover, .btn-block { transition: none; }
   .site-nav a:hover, .nav-logo:hover, .card-hover:hover, .btn-block:hover { transform: none; }
 }
+@keyframes tl-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.tl-grow { transform-origin: left; animation: tl-grow 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.tl-pop { animation: pop-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes tl-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.tl-bob { animation: tl-bob 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .tl-grow, .tl-pop, .tl-bob { animation: none; } }

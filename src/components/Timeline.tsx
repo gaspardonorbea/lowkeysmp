@@ -23,7 +23,7 @@ export function Timeline() {
   return (
     <div className="block-card p-4">
       <div className="overflow-x-auto pb-2">
-        <div className="relative mx-6 min-w-[760px] pt-24 pb-36">
+        <div className="relative mx-6 min-w-[1100px] pt-24 pb-36">
           {TOP.map((m, i) => (
             <div key={m.label} className="tl-pop absolute top-0 -translate-x-1/2 text-center" style={{ left: `${pos(m.d)}%`, animationDelay: `${i * 120}ms` }}>
               <div className="tl-bob text-2xl">{m.icon}</div>
@@ -40,7 +40,7 @@ export function Timeline() {
             <span className="flex h-full items-center px-3 font-pixel text-sm text-secondary-foreground">Verliezerseiland</span>
           </div>
           {[{ d: ISLAND.from, icon: "💀", label: "Verliezerseiland start", day: "11 nov" }, { d: ISLAND.to, icon: "❤️", label: "Finale Verliezerseiland", day: "18 nov" }].map((m, i) => (
-            <div key={m.label} className="tl-pop absolute top-[10.5rem] -translate-x-1/2 text-center" style={{ left: `${pos(m.d)}%`, animationDelay: `${600 + i * 120}ms` }}>
+            <div key={m.label} className="tl-pop absolute top-[11.25rem] -translate-x-1/2 text-center" style={{ left: `${pos(m.d)}%`, animationDelay: `${600 + i * 120}ms` }}>
               <div className="tl-bob text-xl">{m.icon}</div>
               <p className="font-pixel text-xs text-secondary">{m.day}</p>
               <p className="whitespace-nowrap font-pixel text-xs">{m.label}</p>

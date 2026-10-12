@@ -188,9 +188,38 @@ html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
   .site-nav a, .site-nav a::after, .nav-logo, .reveal h2::after, .card-hover, .btn-block { transition: none; }
   .site-nav a:hover, .nav-logo:hover, .card-hover:hover, .btn-block:hover { transform: none; }
 }
-@keyframes tl-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.tl-grow { transform-origin: left; animation: tl-grow 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-.tl-pop { animation: pop-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
-@keyframes tl-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-.tl-bob { animation: tl-bob 2.4s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .tl-grow, .tl-pop, .tl-bob { animation: none; } }
+/* Tijdlijn */
+.tl-stars { background-image: radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent) 1px, transparent 1.5px); background-size: 28px 28px; opacity: 0.25; }
+.tl-roll { clip-path: inset(0 100% 0 0 round 6px); box-shadow: var(--shadow-block), var(--shadow-glow); }
+.tl-on .tl-roll { animation: tl-unroll var(--dur, 2s) cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms) forwards; }
+@keyframes tl-unroll { to { clip-path: inset(0 0 0 0 round 6px); } }
+.tl-edge { position: absolute; top: -6px; bottom: -6px; right: 0; width: 6px; border-radius: 3px; background: var(--foreground); box-shadow: 0 0 18px 4px var(--primary); opacity: 0; }
+.tl-on .tl-edge { animation: tl-edge var(--dur, 2s) cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms) forwards; }
+@keyframes tl-edge { 0% { opacity: 1; right: 100%; } 92% { opacity: 1; } 100% { opacity: 0; right: 0; } }
+.tl-sheen { background: linear-gradient(105deg, transparent 40%, color-mix(in oklab, var(--foreground) 35%, transparent) 50%, transparent 60%); background-size: 250% 100%; background-position: 150% 0; }
+.tl-on .tl-sheen { animation: tl-sheen 3.5s ease-in-out calc(var(--d, 0ms) + 2.4s) infinite; }
+@keyframes tl-sheen { 0% { background-position: 150% 0; } 45%, 100% { background-position: -50% 0; } }
+.tl-ms { opacity: 0; transform: translateY(14px) scale(0.8); }
+.tl-ms.absolute { transform: translate(-50%, 14px) scale(0.8); }
+.tl-on .tl-ms { animation: tl-ms 600ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0ms) forwards; }
+.tl-on .tl-ms.absolute { animation-name: tl-ms-abs; }
+@keyframes tl-ms { to { opacity: 1; transform: none; } }
+@keyframes tl-ms-abs { to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+.tl-tick { transform: scaleY(0); transform-origin: bottom; }
+.tl-on .tl-tick { animation: tl-tick 400ms ease-out calc(var(--d, 0ms) + 250ms) forwards; }
+@keyframes tl-tick { to { transform: scaleY(1); } }
+.tl-icon { filter: drop-shadow(0 0 6px color-mix(in oklab, var(--primary) 60%, transparent)); transition: transform 200ms ease; }
+.tl-ms:hover .tl-icon { transform: scale(1.3) rotate(-6deg); }
+.tl-bob { animation: tl-bob 2.6s ease-in-out infinite; }
+@keyframes tl-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.tl-death { opacity: 0; }
+.tl-on .tl-death { animation: tl-drop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d) forwards; }
+@keyframes tl-drop { 0% { opacity: 0; transform: translate(-50%, -260%) rotate(-30deg); } 100% { opacity: 1; transform: translate(-50%, -50%); } }
+.tl-vroll { transform: scaleY(0); transform-origin: top; }
+.tl-on .tl-vroll { animation: tl-v 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+@keyframes tl-v { to { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .tl-roll { clip-path: none; } .tl-ms, .tl-death { opacity: 1; } .tl-ms.absolute { transform: translateX(-50%); }
+  .tl-tick, .tl-vroll { transform: none; } .tl-edge { display: none; }
+  .tl-on .tl-roll, .tl-on .tl-ms, .tl-on .tl-tick, .tl-on .tl-death, .tl-on .tl-vroll, .tl-bob, .tl-on .tl-sheen { animation: none; }
+}

@@ -102,7 +102,7 @@ function Index() {
       </header>
 
       <Section id="tijdlijn" title="Tijdlijn Seizoen 1">
-        <Reveal><Timeline /></Reveal>
+        <Timeline />
       </Section>
 
       <Section id="nieuws" title="Aankondigingen">

@@ -48,6 +48,7 @@ export type Database = {
           id: string
           trailer_id: string | null
           user_id: string | null
+          visitor_id: string | null
         }
         Insert: {
           announcement_id?: string | null
@@ -58,6 +59,7 @@ export type Database = {
           id?: string
           trailer_id?: string | null
           user_id?: string | null
+          visitor_id?: string | null
         }
         Update: {
           announcement_id?: string | null
@@ -68,6 +70,7 @@ export type Database = {
           id?: string
           trailer_id?: string | null
           user_id?: string | null
+          visitor_id?: string | null
         }
         Relationships: [
           {

@@ -43,28 +43,34 @@ export type Database = {
           announcement_id: string | null
           body: string
           created_at: string
+          delete_token: string
           display_name: string
           id: string
           trailer_id: string | null
-          user_id: string
+          user_id: string | null
+          visitor_id: string | null
         }
         Insert: {
           announcement_id?: string | null
           body: string
           created_at?: string
+          delete_token?: string
           display_name: string
           id?: string
           trailer_id?: string | null
-          user_id?: string
+          user_id?: string | null
+          visitor_id?: string | null
         }
         Update: {
           announcement_id?: string | null
           body?: string
           created_at?: string
+          delete_token?: string
           display_name?: string
           id?: string
           trailer_id?: string | null
-          user_id?: string
+          user_id?: string | null
+          visitor_id?: string | null
         }
         Relationships: [
           {
@@ -89,21 +95,24 @@ export type Database = {
           created_at: string
           id: string
           trailer_id: string | null
-          user_id: string
+          user_id: string | null
+          visitor_id: string | null
         }
         Insert: {
           announcement_id?: string | null
           created_at?: string
           id?: string
           trailer_id?: string | null
-          user_id?: string
+          user_id?: string | null
+          visitor_id?: string | null
         }
         Update: {
           announcement_id?: string | null
           created_at?: string
           id?: string
           trailer_id?: string | null
-          user_id?: string
+          user_id?: string | null
+          visitor_id?: string | null
         }
         Relationships: [
           {

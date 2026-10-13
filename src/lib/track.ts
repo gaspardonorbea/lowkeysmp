@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-function visitorId() {
+export function visitorId() {
   let id = localStorage.getItem("lk_vid");
   if (!id) {
     id = crypto.randomUUID();

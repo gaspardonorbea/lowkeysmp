@@ -50,6 +50,13 @@
       "when": 1791866848684,
       "tag": "0006_anonymous_reactions",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791866874138,
+      "tag": "0007_hide_reaction_tokens",
+      "breakpoints": true
     }
   ]
 }

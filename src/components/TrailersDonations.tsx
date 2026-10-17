@@ -76,39 +76,74 @@ export function DonationBoard() {
   const { data } = useDonations();
   if (!data?.length) return null;
   const total = data.reduce((s, d) => s + Number(d.amount), 0);
-  const [top, ...rest] = data;
+  const [top, second, third, ...rest] = data;
+  const podium = [second, third].filter((donor) => donor !== undefined);
   return (
-    <div className="space-y-6">
-      <p className="text-center font-pixel text-lg text-muted-foreground">
-        Samen al <span className="text-3xl text-gold">{fmtEuro(total)}</span> gedoneerd. Legends. 💛
-      </p>
+    <div className="space-y-5">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="block-card flex items-center justify-between gap-3 border border-gold/35 px-4 py-3">
+          <span className="font-pixel text-xs uppercase tracking-wider text-muted-foreground">Samen opgehaald</span>
+          <span className="font-pixel text-xl font-bold text-gold">{fmtEuro(total)}</span>
+        </div>
+        <div className="block-card flex items-center justify-between gap-3 border border-primary/25 px-4 py-3">
+          <span className="font-pixel text-xs uppercase tracking-wider text-muted-foreground">Donaties</span>
+          <span className="font-pixel text-xl font-bold text-primary">{data.length}</span>
+        </div>
+      </div>
       {top && (
-        <div className="block-card gold-glow relative mx-auto max-w-md border-4 p-8 text-center">
-          <span className="crown-bob absolute -top-7 left-1/2 -ml-5 text-5xl">👑</span>
+        <article className="block-card relative grid items-center gap-4 overflow-hidden border-2 border-gold/70 bg-gradient-to-r from-gold/10 via-card to-primary/10 p-5 sm:grid-cols-[auto_1fr_auto] sm:gap-6 sm:p-6">
+          <div className="pointer-events-none absolute -right-12 -top-16 size-48 rounded-full border-[18px] border-gold/5" aria-hidden="true" />
           <img
             src={`https://minotar.net/armor/body/${encodeURIComponent(top.ign.trim())}/120.png`}
             alt={top.ign}
-            className="mx-auto mb-4 h-40 [image-rendering:pixelated]"
+            loading="lazy"
+            className="mx-auto h-32 [image-rendering:pixelated] sm:mx-0 sm:h-36"
           />
-          <p className="font-pixel text-xs uppercase tracking-widest text-gold">#1 Top donateur</p>
-          <p className="font-pixel text-3xl font-bold">{top.ign}</p>
-          {top.irl_name && <p className="text-muted-foreground">{top.irl_name}</p>}
-          <p className="mt-3 font-pixel text-4xl text-gold">{fmtEuro(Number(top.amount))}</p>
+          <div className="min-w-0 text-center sm:text-left">
+            <p className="mb-2 inline-flex items-center gap-2 border border-gold/40 bg-gold/10 px-2 py-1 font-pixel text-[10px] uppercase tracking-widest text-gold"><span aria-hidden="true">♛</span> Nummer 1</p>
+            <h3 className="truncate font-pixel text-2xl font-bold sm:text-3xl">{top.ign}</h3>
+            {top.irl_name && <p className="mt-1 text-sm text-muted-foreground">{top.irl_name}</p>}
+          </div>
+          <div className="relative text-center sm:text-right">
+            <p className="font-pixel text-[10px] uppercase tracking-widest text-muted-foreground">Totaal gedoneerd</p>
+            <p className="mt-1 font-pixel text-3xl font-bold text-gold">{fmtEuro(Number(top.amount))}</p>
+          </div>
+        </article>
+      )}
+      {podium.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {podium.map((d, i) => {
+            const rank = i + 2;
+            return (
+              <article key={d.id} className="block-card flex min-w-0 items-center gap-3 border border-border p-3 sm:p-4">
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center border font-pixel text-sm font-bold ${rank === 2 ? "border-slate-300/50 bg-slate-300/10 text-slate-200" : "border-orange-300/50 bg-orange-300/10 text-orange-200"}`}>#{rank}</span>
+                <img src={`https://minotar.net/helm/${encodeURIComponent(d.ign.trim())}/48.png`} alt="" loading="lazy" className="h-11 w-11 shrink-0 [image-rendering:pixelated]" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-pixel font-bold">{d.ign}</p>
+                  {d.irl_name && <p className="truncate text-xs text-muted-foreground">{d.irl_name}</p>}
+                </div>
+                <span className="shrink-0 font-pixel text-sm text-gold">{fmtEuro(Number(d.amount))}</span>
+              </article>
+            );
+          })}
         </div>
       )}
       {rest.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {rest.map((d, i) => (
-            <div key={d.id} className={`block-card card-hover flex items-center gap-4 p-4 ${i < 2 ? "border-gold" : ""}`}>
-              <span className="font-pixel text-2xl text-gold">{i === 0 ? "🥈" : i === 1 ? "🥉" : `#${i + 2}`}</span>
-              <img src={`https://minotar.net/helm/${encodeURIComponent(d.ign.trim())}/48.png`} alt="" className="h-12 w-12 [image-rendering:pixelated]" />
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-pixel font-bold">{d.ign}</p>
-                {d.irl_name && <p className="truncate text-xs text-muted-foreground">{d.irl_name}</p>}
-              </div>
-              <span className="font-pixel text-gold">{fmtEuro(Number(d.amount))}</span>
-            </div>
-          ))}
+        <div className="space-y-3">
+          <h3 className="font-pixel text-sm font-bold uppercase tracking-wider text-muted-foreground">Ook bedankt</h3>
+          <ol className="block-card divide-y divide-border px-3">
+            {rest.map((d, i) => (
+              <li key={d.id} className="flex min-w-0 items-center gap-3 py-3">
+                <span className="w-8 shrink-0 text-center font-pixel text-xs text-muted-foreground">#{i + 4}</span>
+                <img src={`https://minotar.net/helm/${encodeURIComponent(d.ign.trim())}/40.png`} alt="" loading="lazy" className="h-9 w-9 shrink-0 [image-rendering:pixelated]" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-pixel text-sm font-bold">{d.ign}</p>
+                  {d.irl_name && <p className="truncate text-xs text-muted-foreground">{d.irl_name}</p>}
+                </div>
+                <span className="shrink-0 font-pixel text-xs text-gold">{fmtEuro(Number(d.amount))}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       )}
     </div>

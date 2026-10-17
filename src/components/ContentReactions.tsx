@@ -43,7 +43,7 @@ export function ContentReactions({ kind, id }: { kind: "announcement" | "trailer
     refetchInterval: 15000,
     queryFn: async () => {
       const [comments, likes, own, role] = await Promise.all([
-        supabase.from("content_comments").select("*", { count: "exact" }).eq(column, id).order("created_at", { ascending: false }).limit(limit),
+        supabase.from("content_comments").select("id,announcement_id,trailer_id,user_id,display_name,body,created_at", { count: "exact" }).eq(column, id).order("created_at", { ascending: false }).limit(limit),
         supabase.from("content_likes").select("id", { count: "exact", head: true }).eq(column, id),
         session ? supabase.from("content_likes").select("id").eq(column, id).eq("user_id", session.user.id).maybeSingle() : Promise.resolve({ data: null, error: null }),
         session ? supabase.from("user_roles").select("role").eq("user_id", session.user.id) : Promise.resolve({ data: [], error: null }),

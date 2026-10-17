@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Lowkey SMP Hub
+
+Ik wil een website voor mijn minecraft smp voor mijn vrienden. Genaamd LowkeySMP. Ik wil hierop aankondigingen. Een customizable namenblad en je kan customizen wie er al dood is gegaan en wanneer. Openingsuren enzo. Neem inspiratie van creatosmp.nl. slogan is lowkey peak
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://lowkeysmp.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/68d4ac4c-df55-4509-99bb-f86ab15227df).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS

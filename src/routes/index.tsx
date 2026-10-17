@@ -95,7 +95,7 @@ function Index() {
         <div className="hero-glow pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
         <div className="relative z-10 px-5 py-16 text-center">
           <div className="pop-in"><img src={logo.url} onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = "/logo-smp-local.png"; }} alt="LowkeySMP" className="float-slow mx-auto w-[min(520px,85vw)] drop-shadow-[0_10px_36px_rgba(0,0,0,0.55)]" /></div>
-          <p className="mx-auto mt-6 w-fit rounded-full border border-primary/40 bg-background/50 px-4 py-1.5 font-pixel text-xs uppercase tracking-[0.2em] text-foreground/90 backdrop-blur">Minecraft survival · seizoen 1</p>
+          
           <p className="pop-in mt-3 font-pixel text-3xl text-foreground md:text-4xl" style={{ animationDelay: "150ms" }}>lowkey peak.</p>
           <Countdown />
           <div className="pop-in mt-8 flex flex-wrap justify-center gap-4" style={{ animationDelay: "300ms" }}>
@@ -106,7 +106,7 @@ function Index() {
             <span className="hero-stat"><span className="text-success">{alive.length}</span> levend</span>
             <span className="hero-stat"><span className="text-destructive">{dead.length}</span> dood</span>
           </div>
-          <a href="#tijdlijn" className="hero-scroll mt-10 inline-flex items-center gap-2 font-pixel text-xs uppercase tracking-widest text-foreground/65">Scroll voor de roadmap <span aria-hidden="true">⌄</span></a>
+          
         </div>
       </header>
 

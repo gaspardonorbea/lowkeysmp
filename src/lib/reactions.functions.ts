@@ -24,9 +24,13 @@ export const toggleAnonLike = createServerFn({ method: "POST" })
       if (error) throw new Error("Like verwijderen mislukt");
       return { liked: false as const, likeId: null };
     }
+    const like =
+      data.kind === "announcement"
+        ? { announcement_id: data.targetId, trailer_id: null, visitor_id: data.visitorId, user_id: null }
+        : { announcement_id: null, trailer_id: data.targetId, visitor_id: data.visitorId, user_id: null };
     const { data: row, error } = await supabaseAdmin
       .from("content_likes")
-      .insert({ [col]: data.targetId, visitor_id: data.visitorId, user_id: null })
+      .insert(like)
       .select("id")
       .single();
     if (error) throw new Error("Like plaatsen mislukt");

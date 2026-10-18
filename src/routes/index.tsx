@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import hero from "@/assets/hero.jpg";
+import hero from "@/assets/hero-lowkeysmp.jpg";
 import logo from "@/assets/logo-smp.png.asset.json";
 import { useAnnouncements, usePlayers, useHours, fmtDate } from "@/lib/smp";
 import { TOPICS } from "@/lib/notify";

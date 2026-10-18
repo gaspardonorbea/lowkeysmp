@@ -174,7 +174,7 @@ function DeathTrack({ players, location }: { players: TimelinePlayer[]; location
   if (!events.length) return null;
   return (
     <div className="relative mt-1 h-[76px] border-t border-dashed border-border/40" aria-label={location === "season" ? "Deaths op het hoofdeiland" : "Deaths en herlevingen op Verliezers-eiland"}>
-      {events.map((event, index) => {
+      {events.map((event) => {
         const left = position(event.date);
         const transform = left < 7 ? "translateX(0)" : left > 93 ? "translateX(-100%)" : "translateX(-50%)";
         return (

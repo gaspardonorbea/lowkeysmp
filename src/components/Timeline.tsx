@@ -119,8 +119,8 @@ function getAvatarEvents(players: TimelinePlayer[]): AvatarEvent[] {
   };
 
   players.forEach((player) => {
-    if (player.died_at && (player.death_location === "season" || player.death_location === "island")) {
-      add(player, player.died_at, "death", player.death_location);
+    if (player.died_at) {
+      add(player, player.died_at, "death", player.death_location === "island" ? "island" : "season");
     }
     if (player.revived_at) add(player, player.revived_at, "revival", "island");
   });

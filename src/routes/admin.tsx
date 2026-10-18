@@ -257,35 +257,48 @@ function Players() {
               </select>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" checked={p.is_dead} onChange={(e) => {
-                  update(p.id, { is_dead: e.target.checked, died_at: e.target.checked ? (p.died_at ?? new Date().toISOString()) : null, death_cause: e.target.checked ? p.death_cause : null, death_location: e.target.checked ? (p.death_location ?? "season") : null });
+                  update(p.id, { is_dead: e.target.checked, died_at: e.target.checked ? (p.died_at ?? new Date().toISOString()) : p.died_at });
                   if (e.target.checked) sendPush("deaths", `☠ ${p.name} is dood`, `${p.name} is gestorven op LowkeySMP.`);
                 }} />
                 Dood
               </label>
               <button className="text-sm text-destructive underline" onClick={async () => { await supabase.from("players").delete().eq("id", p.id); refresh("players"); }}>Verwijder</button>
             </div>
-            {(p.is_dead || p.died_at) && (
-              <div className="flex flex-wrap gap-2">
-                <input
-                  type="datetime-local"
-                  className="field w-auto"
-                  defaultValue={p.died_at ? new Date(new Date(p.died_at).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16) : ""}
-                  onBlur={(e) => e.target.value && update(p.id, { died_at: new Date(e.target.value).toISOString() })}
-                />
-                <input className="field flex-1" placeholder="Doodsoorzaak (bv. Creeper)" defaultValue={p.death_cause ?? ""} onBlur={(e) => update(p.id, { death_cause: e.target.value.slice(0, 200) })} />
-                <select className="field" aria-label="Eiland van overlijden" value={p.death_location ?? "season"} onChange={(e) => update(p.id, { death_location: e.target.value })}>
-                  <option value="season">Hoofdeiland</option>
-                  <option value="island">Verliezers-eiland</option>
-                </select>
-                {p.death_location === "island" && (
-                  <label className="flex items-center gap-2 text-sm text-emerald-300">
-                    <input type="checkbox" checked={!!p.revived_at} onChange={(e) => update(p.id, { revived_at: e.target.checked ? "2026-11-18T12:00:00+01:00" : null, is_dead: !e.target.checked })} />
-                    Herleefd bij finale (18 nov)
-                  </label>
-                )}
+            {(p.is_dead || p.died_at || p.main_died_at || p.island_died_at) && (
+              <div className="space-y-3 border-t border-border pt-3">
+                <p className="font-pixel text-xs text-muted-foreground">Deaths op de tijdlijn · vink beide aan als dat klopt</p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <fieldset className="space-y-2 border border-primary/30 bg-primary/5 p-3">
+                    <label className="flex items-center gap-2 text-sm font-semibold">
+                      <input type="checkbox" checked={!!p.main_died_at} onChange={(e) => update(p.id, { main_died_at: e.target.checked ? (p.main_died_at ?? p.died_at ?? new Date().toISOString()) : null, main_death_cause: e.target.checked ? (p.main_death_cause ?? p.death_cause ?? null) : null })} />
+                      Dood op het hoofdeiland
+                    </label>
+                    {p.main_died_at && (
+                      <div className="space-y-2">
+                        <input type="datetime-local" aria-label="Datum dood hoofdeiland" className="field" defaultValue={new Date(new Date(p.main_died_at).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)} onBlur={(e) => update(p.id, { main_died_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+                        <input className="field" placeholder="Doodsoorzaak hoofdeiland" defaultValue={p.main_death_cause ?? ""} onBlur={(e) => update(p.id, { main_death_cause: e.target.value.slice(0, 200) || null })} />
+                      </div>
+                    )}
+                  </fieldset>
+                  <fieldset className="space-y-2 border border-secondary/30 bg-secondary/5 p-3">
+                    <label className="flex items-center gap-2 text-sm font-semibold">
+                      <input type="checkbox" checked={!!p.island_died_at} onChange={(e) => update(p.id, { island_died_at: e.target.checked ? (p.island_died_at ?? (p.death_location === "island" ? p.died_at : null) ?? new Date().toISOString()) : null, island_death_cause: e.target.checked ? (p.island_death_cause ?? (p.death_location === "island" ? p.death_cause : null) ?? null) : null })} />
+                      Dood op Verliezers-eiland
+                    </label>
+                    {p.island_died_at && (
+                      <div className="space-y-2">
+                        <input type="datetime-local" aria-label="Datum dood Verliezers-eiland" className="field" defaultValue={new Date(new Date(p.island_died_at).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)} onBlur={(e) => update(p.id, { island_died_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+                        <input className="field" placeholder="Doodsoorzaak Verliezers-eiland" defaultValue={p.island_death_cause ?? ""} onBlur={(e) => update(p.id, { island_death_cause: e.target.value.slice(0, 200) || null })} />
+                        <label className="flex items-center gap-2 text-sm text-emerald-300">
+                          <input type="checkbox" checked={!!p.revived_at} onChange={(e) => update(p.id, { revived_at: e.target.checked ? "2026-11-18T12:00:00+01:00" : null, is_dead: !e.target.checked })} />
+                          Herleefd bij finale (18 nov)
+                        </label>
+                      </div>
+                    )}
+                  </fieldset>
+                </div>
               </div>
-            )}
-          </div>
+            )}          </div>
         ))}
       </div>
       {pageCount > 1 && <div className="mt-4 flex items-center justify-between gap-3">

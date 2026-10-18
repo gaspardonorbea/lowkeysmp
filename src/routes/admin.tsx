@@ -257,14 +257,14 @@ function Players() {
               </select>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" checked={p.is_dead} onChange={(e) => {
-                  update(p.id, { is_dead: e.target.checked, died_at: e.target.checked ? new Date().toISOString() : null, death_cause: e.target.checked ? p.death_cause : null });
+                  update(p.id, { is_dead: e.target.checked, died_at: e.target.checked ? (p.died_at ?? new Date().toISOString()) : null, death_cause: e.target.checked ? p.death_cause : null, death_location: e.target.checked ? (p.death_location ?? "season") : null });
                   if (e.target.checked) sendPush("deaths", `☠ ${p.name} is dood`, `${p.name} is gestorven op LowkeySMP.`);
                 }} />
                 Dood
               </label>
               <button className="text-sm text-destructive underline" onClick={async () => { await supabase.from("players").delete().eq("id", p.id); refresh("players"); }}>Verwijder</button>
             </div>
-            {p.is_dead && (
+            {(p.is_dead || p.died_at) && (
               <div className="flex flex-wrap gap-2">
                 <input
                   type="datetime-local"
@@ -273,6 +273,16 @@ function Players() {
                   onBlur={(e) => e.target.value && update(p.id, { died_at: new Date(e.target.value).toISOString() })}
                 />
                 <input className="field flex-1" placeholder="Doodsoorzaak (bv. Creeper)" defaultValue={p.death_cause ?? ""} onBlur={(e) => update(p.id, { death_cause: e.target.value.slice(0, 200) })} />
+                <select className="field" aria-label="Eiland van overlijden" value={p.death_location ?? "season"} onChange={(e) => update(p.id, { death_location: e.target.value })}>
+                  <option value="season">Hoofdeiland</option>
+                  <option value="island">Verliezers-eiland</option>
+                </select>
+                {p.death_location === "island" && (
+                  <label className="flex items-center gap-2 text-sm text-emerald-300">
+                    <input type="checkbox" checked={!!p.revived_at} onChange={(e) => update(p.id, { revived_at: e.target.checked ? "2026-11-18T12:00:00+01:00" : null, is_dead: !e.target.checked })} />
+                    Herleefd bij finale (18 nov)
+                  </label>
+                )}
               </div>
             )}
           </div>

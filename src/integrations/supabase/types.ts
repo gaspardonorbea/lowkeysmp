@@ -186,6 +186,10 @@ export type Database = {
           death_location: string | null
           died_at: string | null
           revived_at: string | null
+          main_died_at: string | null
+          main_death_cause: string | null
+          island_died_at: string | null
+          island_death_cause: string | null
           id: string
           is_dead: boolean
           name: string
@@ -198,6 +202,10 @@ export type Database = {
           death_location?: string | null
           died_at?: string | null
           revived_at?: string | null
+          main_died_at?: string | null
+          main_death_cause?: string | null
+          island_died_at?: string | null
+          island_death_cause?: string | null
           id?: string
           is_dead?: boolean
           name: string
@@ -210,6 +218,10 @@ export type Database = {
           death_location?: string | null
           died_at?: string | null
           revived_at?: string | null
+          main_died_at?: string | null
+          main_death_cause?: string | null
+          island_died_at?: string | null
+          island_death_cause?: string | null
           id?: string
           is_dead?: boolean
           name?: string

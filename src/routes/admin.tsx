@@ -131,7 +131,7 @@ function Announcements() {
       imagePath = `${crypto.randomUUID()}-${image.name.replace(/[^\\w.-]/g, "_")}`;
       const { error: uploadError } = await supabase.storage.from("announcement-images").upload(imagePath, image, { contentType: image.type });
       if (uploadError) { setStatus(`Afbeelding uploaden mislukt: ${uploadError.message}`); setPosting(false); return; }
-      imageUrl = supabase.storage.from("announcement-images").getPublicUrl(imagePath).data.publicUrl;
+            imageUrl = imagePath;
     }
     const { error } = await supabase.from("announcements").insert({ title: title.trim().slice(0, 200), body: body.slice(0, 5000), image_url: imageUrl });
     if (error) {
@@ -163,7 +163,7 @@ function Announcements() {
             <button className="underline" onClick={async () => { await supabase.from("announcements").update({ pinned: !a.pinned }).eq("id", a.id); refresh("announcements"); }}>{a.pinned ? "Unpin" : "Pin"}</button>
             <button className="text-destructive underline" onClick={async () => {
               if (a.image_url) {
-                const imagePath = a.image_url.split("/announcement-images/")[1]?.split("?")[0];
+                const imagePath = a.image_url.includes("/announcement-images/") ? a.image_url.split("/announcement-images/")[1]?.split("?")[0] : a.image_url;
                 if (imagePath) await supabase.storage.from("announcement-images").remove([decodeURIComponent(imagePath)]);
               }
               await supabase.from("announcements").delete().eq("id", a.id); refresh("announcements");

@@ -32,7 +32,7 @@ function EventLabel({ event, now, align = "center", row = "above" }: { event: Mi
   const anchor = align === "left" ? "translateX(0)" : align === "right" ? "translateX(-100%)" : "translateX(-50%)";
   return (
     <div className={`absolute z-10 flex h-[92px] w-28 flex-col items-center justify-center gap-1 rounded-md border bg-card/95 px-2 py-1.5 text-center shadow-[0_4px_14px_-5px_oklch(0.05_0.03_300/0.8)] backdrop-blur-sm ${event.group === "eiland" ? "border-secondary/55" : "border-primary/50"} ${isFinale ? "border-gold/80" : ""}`} style={{ left: 0, top: row === "above" ? "0px" : "124px", transform: anchor }}>
-      <img src={event.icon} alt="" className={`milestone-art object-contain ${event.title === "Server open" || event.title === "Finale Verliezers-eiland" ? "h-7 w-7" : "h-6 w-6"}`} />
+      <img src={event.icon} alt="" className={`milestone-art object-contain ${event.title === "Server open" || event.title === "Finale Verliezers-eiland" ? "h-10 w-10" : "h-9 w-9"}`} />
       <time dateTime={event.date} className={`font-pixel text-[11px] font-bold ${isFinale ? "text-gold" : event.group === "eiland" ? "text-secondary" : "text-primary"}`}>{event.day}</time>
       <span className="font-pixel text-[11px] leading-tight">{event.title}</span>
       <span className="text-[9px] leading-none text-muted-foreground">
@@ -84,6 +84,10 @@ type TimelinePlayer = {
   died_at?: string | null;
   death_cause?: string | null;
   death_location?: string | null;
+  main_died_at?: string | null;
+  main_death_cause?: string | null;
+  island_died_at?: string | null;
+  island_death_cause?: string | null;
   revived_at?: string | null;
 };
 
@@ -119,8 +123,11 @@ function getAvatarEvents(players: TimelinePlayer[]): AvatarEvent[] {
   };
 
   players.forEach((player) => {
-    if (player.died_at) {
-      add(player, player.died_at, "death", player.death_location === "island" ? "island" : "season");
+    if (player.main_died_at) {
+      add({ ...player, death_cause: player.main_death_cause ?? player.death_cause }, player.main_died_at, "death", "season");
+    }
+    if (player.island_died_at) {
+      add({ ...player, death_cause: player.island_death_cause ?? player.death_cause }, player.island_died_at, "death", "island");
     }
     if (player.revived_at) add(player, player.revived_at, "revival", "island");
   });
@@ -221,7 +228,7 @@ function MobileEvents({ now }: { now: number | null }) {
               <time dateTime={event.date} className={`whitespace-nowrap font-pixel text-xs font-bold ${isFinale ? "text-gold" : event.group === "eiland" ? "text-secondary" : "text-primary"}`}>{event.day}</time>
             </div>
             <span className="relative flex h-9 w-9 shrink-0 items-center justify-center">
-              <img src={event.icon} alt="" className={`milestone-art absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 object-contain ${event.title === "Server open" || event.title === "Finale Verliezers-eiland" ? "h-11 w-11" : "h-9 w-9"}`} />
+              <img src={event.icon} alt="" className={`milestone-art absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 object-contain ${event.title === "Server open" || event.title === "Finale Verliezers-eiland" ? "h-12 w-12" : "h-9 w-9"}`} />
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-pixel text-sm leading-tight">{event.title}</p>

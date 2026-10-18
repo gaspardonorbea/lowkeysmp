@@ -183,7 +183,9 @@ export type Database = {
         Row: {
           created_at: string
           death_cause: string | null
+          death_location: string | null
           died_at: string | null
+          revived_at: string | null
           id: string
           is_dead: boolean
           name: string
@@ -193,7 +195,9 @@ export type Database = {
         Insert: {
           created_at?: string
           death_cause?: string | null
+          death_location?: string | null
           died_at?: string | null
+          revived_at?: string | null
           id?: string
           is_dead?: boolean
           name: string
@@ -203,8 +207,18 @@ export type Database = {
         Update: {
           created_at?: string
           death_cause?: string | null
+          death_location?: string | null
           died_at?: string | null
+          revived_at?: string | null
           id?: string
+          is_dead?: boolean
+          name?: string
+          role?: string
+          team?: string | null
+        }
+        Relationships: []
+      }
+ng
           is_dead?: boolean
           name?: string
           role?: string

@@ -111,7 +111,7 @@ function Index() {
       </header>
 
       <Section id="tijdlijn" title="Tijdlijn Seizoen 1">
-        <Reveal><Timeline /></Reveal>
+        <Reveal><Timeline players={players.data ?? []} /></Reveal>
       </Section>
 
       <Section id="nieuws" title="Aankondigingen">

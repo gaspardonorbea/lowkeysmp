@@ -11,7 +11,9 @@ import { HomeVideo, HomeAnnouncement } from "@/components/HomeHighlights";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal, Section } from "@/components/page";
 import { DonationInstructions } from "@/components/DonationInstructions";
-import { T, useEdit } from "@/lib/cms";
+import { T, useEdit, useContent } from "@/lib/cms";
+import { Events } from "@/components/Events";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { BlockFrame, moveBlock, useBlocks, type Block } from "@/lib/blocks";
 
 export const Route = createFileRoute("/")({
@@ -67,6 +69,8 @@ function Index() {
   const hours = useHours();
   const hasDonations = useHasDonations();
   const { blocks, update } = useBlocks("home");
+  const eventsOn = useContent<boolean>("events.enabled", true);
+  const mobile = useIsMobile();
   useEffect(() => track("visit"), []);
   const alive = players.data?.filter((p) => !p.is_dead) ?? [];
   const dead = players.data?.filter((p) => p.is_dead) ?? [];
@@ -102,7 +106,11 @@ function Index() {
         </Reveal>
       </section>
     ),
-    timeline: () => null,
+    timeline: () => eventsOn ? (
+      <Section id="events" title="Seizoen 1 Evenementen">
+        <Reveal><Events /></Reveal>
+      </Section>
+    ) : null,
     server: () => (
       <Section id="server" title="Server">
         <Reveal><ServerIp /></Reveal>
@@ -137,21 +145,30 @@ function Index() {
       </Section>
     ),
     meldingen: () => (
-      <Section id="meldingen" title="Meldingen op je gsm">
+      <Section id="meldingen" title="Meldingen">
         <Reveal>
           <div className="block-card space-y-5 p-6">
-            <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
+            {mobile && <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
               <li><T k="notify.step1" def="Download de gratis app ntfy (Android of iPhone)." />{" "}
                 <a className="underline" href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noreferrer">Android</a> /{" "}
                 <a className="underline" href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noreferrer">iPhone</a></li>
               <li><T k="notify.step2" def="Tik hieronder op wat je wilt volgen, of voeg de naam toe in de app met de +." /></li>
-            </ol>
+            </ol>}
             <div className="grid gap-4 sm:grid-cols-2">
               {([["nieuws", "📢 Aankondigingen"], ["deaths", "☠ Dood meldingen"]] as const).map(([k, label]) => (
                 <div key={k} className="border-2 border-border p-4">
                   <T k={`notify.${k}.title`} def={label} as="p" className="block font-pixel font-bold" />
-                  <code className="mt-1 block break-all text-xs text-secondary">{TOPICS[k]}</code>
-                  <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3"><T k="notify.button" def="Aanzetten" /></a>
+                  {mobile ? (
+                    <>
+                      <code className="mt-1 block break-all text-xs text-secondary">{TOPICS[k]}</code>
+                      <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3"><T k="notify.button" def="Aanzetten" /></a>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mt-1 text-xs text-muted-foreground">Open de pagina, klik op "Subscribe" en sta meldingen toe in je browser.</p>
+                      <a href={`https://ntfy.sh/${TOPICS[k]}`} target="_blank" rel="noreferrer" onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3">🔔 Meldingen aanzetten</a>
+                    </>
+                  )}
                 </div>
               ))}
             </div>

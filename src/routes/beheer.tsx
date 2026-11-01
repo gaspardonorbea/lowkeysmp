@@ -67,8 +67,8 @@ function Beheer() {
 
 function Login() {
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState(BEHEER_EMAIL);
-  const [other, setOther] = useState(false);
+  const [email, setEmail] = useState("");
+  const [other, setOther] = useState(true);
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");

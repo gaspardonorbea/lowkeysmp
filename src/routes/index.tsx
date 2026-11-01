@@ -10,7 +10,6 @@ import { DonationBoard, useHasDonations } from "@/components/TrailersDonations";
 import { HomeVideo, HomeAnnouncement } from "@/components/HomeHighlights";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal, Section } from "@/components/page";
-import { Timeline } from "@/components/Timeline";
 import { DonationInstructions } from "@/components/DonationInstructions";
 import { T, useEdit } from "@/lib/cms";
 import { BlockFrame, moveBlock, useBlocks, type Block } from "@/lib/blocks";

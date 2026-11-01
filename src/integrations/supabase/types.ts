@@ -185,14 +185,14 @@ export type Database = {
           death_cause: string | null
           death_location: string | null
           died_at: string | null
-          revived_at: string | null
-          main_died_at: string | null
-          main_death_cause: string | null
-          island_died_at: string | null
-          island_death_cause: string | null
           id: string
           is_dead: boolean
+          island_death_cause: string | null
+          island_died_at: string | null
+          main_death_cause: string | null
+          main_died_at: string | null
           name: string
+          revived_at: string | null
           role: string
           team: string | null
         }
@@ -201,14 +201,14 @@ export type Database = {
           death_cause?: string | null
           death_location?: string | null
           died_at?: string | null
-          revived_at?: string | null
-          main_died_at?: string | null
-          main_death_cause?: string | null
-          island_died_at?: string | null
-          island_death_cause?: string | null
           id?: string
           is_dead?: boolean
+          island_death_cause?: string | null
+          island_died_at?: string | null
+          main_death_cause?: string | null
+          main_died_at?: string | null
           name: string
+          revived_at?: string | null
           role?: string
           team?: string | null
         }
@@ -217,22 +217,14 @@ export type Database = {
           death_cause?: string | null
           death_location?: string | null
           died_at?: string | null
-          revived_at?: string | null
-          main_died_at?: string | null
-          main_death_cause?: string | null
-          island_died_at?: string | null
-          island_death_cause?: string | null
           id?: string
           is_dead?: boolean
+          island_death_cause?: string | null
+          island_died_at?: string | null
+          main_death_cause?: string | null
+          main_died_at?: string | null
           name?: string
-          role?: string
-          team?: string | null
-        }
-        Relationships: []
-      }
-ng
-          is_dead?: boolean
-          name?: string
+          revived_at?: string | null
           role?: string
           team?: string | null
         }

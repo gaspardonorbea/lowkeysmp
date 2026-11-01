@@ -102,7 +102,11 @@ function Index() {
         </Reveal>
       </section>
     ),
-    timeline: () => null,
+    timeline: () => eventsOn ? (
+      <Section id="events" title="Seizoen 1 Evenementen">
+        <Reveal><Events /></Reveal>
+      </Section>
+    ) : null,
     server: () => (
       <Section id="server" title="Server">
         <Reveal><ServerIp /></Reveal>
@@ -150,8 +154,17 @@ function Index() {
               {([["nieuws", "📢 Aankondigingen"], ["deaths", "☠ Dood meldingen"]] as const).map(([k, label]) => (
                 <div key={k} className="border-2 border-border p-4">
                   <T k={`notify.${k}.title`} def={label} as="p" className="block font-pixel font-bold" />
-                  <code className="mt-1 block break-all text-xs text-secondary">{TOPICS[k]}</code>
-                  <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3"><T k="notify.button" def="Aanzetten" /></a>
+                  {mobile ? (
+                    <>
+                      <code className="mt-1 block break-all text-xs text-secondary">{TOPICS[k]}</code>
+                      <a href={`ntfy://ntfy.sh/${TOPICS[k]}`} onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3"><T k="notify.button" def="Aanzetten" /></a>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mt-1 text-xs text-muted-foreground">Open de pagina, klik op "Subscribe" en sta meldingen toe in je browser.</p>
+                      <a href={`https://ntfy.sh/${TOPICS[k]}`} target="_blank" rel="noreferrer" onClick={() => track(k === "nieuws" ? "sub_nieuws" : "sub_deaths")} className="btn-block mt-3">🔔 Meldingen aanzetten</a>
+                    </>
+                  )}
                 </div>
               ))}
             </div>

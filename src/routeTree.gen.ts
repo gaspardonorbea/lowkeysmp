@@ -10,11 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AankondigingenRouteImport } from './routes/aankondigingen'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BeheerRouteImport } from './routes/beheer'
+import { Route as Seizoen1DeathsRouteImport } from './routes/seizoen-1.deaths'
+import { Route as Seizoen1DeelnemersRouteImport } from './routes/seizoen-1.deelnemers'
+import { Route as Seizoen1StatistiekenRouteImport } from './routes/seizoen-1.statistieken'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AankondigingenRoute = AankondigingenRouteImport.update({
+  id: '/aankondigingen',
+  path: '/aankondigingen',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -22,31 +32,93 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BeheerRoute = BeheerRouteImport.update({
+  id: '/beheer',
+  path: '/beheer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Seizoen1DeathsRoute = Seizoen1DeathsRouteImport.update({
+  id: '/seizoen-1/deaths',
+  path: '/seizoen-1/deaths',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Seizoen1DeelnemersRoute = Seizoen1DeelnemersRouteImport.update({
+  id: '/seizoen-1/deelnemers',
+  path: '/seizoen-1/deelnemers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Seizoen1StatistiekenRoute = Seizoen1StatistiekenRouteImport.update({
+  id: '/seizoen-1/statistieken',
+  path: '/seizoen-1/statistieken',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aankondigingen': typeof AankondigingenRoute
   '/admin': typeof AdminRoute
+  '/beheer': typeof BeheerRoute
+  '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
+  '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
+  '/seizoen-1/statistieken': typeof Seizoen1StatistiekenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aankondigingen': typeof AankondigingenRoute
   '/admin': typeof AdminRoute
+  '/beheer': typeof BeheerRoute
+  '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
+  '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
+  '/seizoen-1/statistieken': typeof Seizoen1StatistiekenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aankondigingen': typeof AankondigingenRoute
   '/admin': typeof AdminRoute
+  '/beheer': typeof BeheerRoute
+  '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
+  '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
+  '/seizoen-1/statistieken': typeof Seizoen1StatistiekenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin'
+  fullPaths:
+    | '/'
+    | '/aankondigingen'
+    | '/admin'
+    | '/beheer'
+    | '/seizoen-1/deaths'
+    | '/seizoen-1/deelnemers'
+    | '/seizoen-1/statistieken'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin'
-  id: '__root__' | '/' | '/admin'
+  to:
+    | '/'
+    | '/aankondigingen'
+    | '/admin'
+    | '/beheer'
+    | '/seizoen-1/deaths'
+    | '/seizoen-1/deelnemers'
+    | '/seizoen-1/statistieken'
+  id:
+    | '__root__'
+    | '/'
+    | '/aankondigingen'
+    | '/admin'
+    | '/beheer'
+    | '/seizoen-1/deaths'
+    | '/seizoen-1/deelnemers'
+    | '/seizoen-1/statistieken'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AankondigingenRoute: typeof AankondigingenRoute
   AdminRoute: typeof AdminRoute
+  BeheerRoute: typeof BeheerRoute
+  Seizoen1DeathsRoute: typeof Seizoen1DeathsRoute
+  Seizoen1DeelnemersRoute: typeof Seizoen1DeelnemersRoute
+  Seizoen1StatistiekenRoute: typeof Seizoen1StatistiekenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +130,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aankondigingen': {
+      id: '/aankondigingen'
+      path: '/aankondigingen'
+      fullPath: '/aankondigingen'
+      preLoaderRoute: typeof AankondigingenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -65,12 +144,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/beheer': {
+      id: '/beheer'
+      path: '/beheer'
+      fullPath: '/beheer'
+      preLoaderRoute: typeof BeheerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seizoen-1/deaths': {
+      id: '/seizoen-1/deaths'
+      path: '/seizoen-1/deaths'
+      fullPath: '/seizoen-1/deaths'
+      preLoaderRoute: typeof Seizoen1DeathsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seizoen-1/deelnemers': {
+      id: '/seizoen-1/deelnemers'
+      path: '/seizoen-1/deelnemers'
+      fullPath: '/seizoen-1/deelnemers'
+      preLoaderRoute: typeof Seizoen1DeelnemersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seizoen-1/statistieken': {
+      id: '/seizoen-1/statistieken'
+      path: '/seizoen-1/statistieken'
+      fullPath: '/seizoen-1/statistieken'
+      preLoaderRoute: typeof Seizoen1StatistiekenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AankondigingenRoute: AankondigingenRoute,
   AdminRoute: AdminRoute,
+  BeheerRoute: BeheerRoute,
+  Seizoen1DeathsRoute: Seizoen1DeathsRoute,
+  Seizoen1DeelnemersRoute: Seizoen1DeelnemersRoute,
+  Seizoen1StatistiekenRoute: Seizoen1StatistiekenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

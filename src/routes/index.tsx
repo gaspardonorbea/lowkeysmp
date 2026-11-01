@@ -103,11 +103,7 @@ function Index() {
         </Reveal>
       </section>
     ),
-    timeline: () => (
-      <Section id="tijdlijn" title="Tijdlijn Seizoen 1">
-        <Reveal><Timeline players={players.data ?? []} /></Reveal>
-      </Section>
-    ),
+    timeline: () => null,
     server: () => (
       <Section id="server" title="Server">
         <Reveal><ServerIp /></Reveal>

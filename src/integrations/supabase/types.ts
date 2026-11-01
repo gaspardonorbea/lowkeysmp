@@ -20,6 +20,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          images: string[]
           pinned: boolean
           title: string
         }
@@ -28,6 +29,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          images?: string[]
           pinned?: boolean
           title: string
         }
@@ -36,6 +38,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          images?: string[]
           pinned?: boolean
           title?: string
         }
@@ -134,6 +137,36 @@ export type Database = {
           },
         ]
       }
+      death_reports: {
+        Row: {
+          cause: string | null
+          created_at: string
+          died_at: string
+          id: string
+          location: string
+          player_name: string
+          status: string
+        }
+        Insert: {
+          cause?: string | null
+          created_at?: string
+          died_at?: string
+          id?: string
+          location?: string
+          player_name: string
+          status?: string
+        }
+        Update: {
+          cause?: string | null
+          created_at?: string
+          died_at?: string
+          id?: string
+          location?: string
+          player_name?: string
+          status?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
           amount: number
@@ -230,6 +263,24 @@ export type Database = {
         }
         Relationships: []
       }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       site_events: {
         Row: {
           created_at: string
@@ -255,6 +306,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          kind: string
           released_at: string
           title: string
           video_url: string | null
@@ -263,6 +315,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          kind?: string
           released_at?: string
           title: string
           video_url?: string | null
@@ -271,6 +324,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          kind?: string
           released_at?: string
           title?: string
           video_url?: string | null

@@ -92,7 +92,7 @@ export function Players() {
   };
   const update = async (
     id: string,
-    patch: { name?: string; role?: string; team?: string | null; is_dead?: boolean; died_at?: string | null; death_cause?: string | null },
+    patch: import("@/integrations/supabase/types").Database["public"]["Tables"]["players"]["Update"],
   ) => {
     await supabase.from("players").update(patch).eq("id", id);
     refresh("players");

@@ -20,7 +20,7 @@ export const isValidMcName = (name: string) => NAME_OK.test(name.trim());
 export async function lookupMinecraftName(name: string, signal?: AbortSignal): Promise<SkinLookup> {
   if (!isValidMcName(name)) return { status: "missing" };
   try {
-    const res = await fetch(`https://playerdb.co/api/player/minecraft/${encodeURIComponent(name.trim())}`, { signal });
+    const res = await fetch(`https://playerdb.co/api/player/minecraft/${encodeURIComponent(name.trim())}`, signal ? { signal } : {});
     if (res.status === 404 || res.status === 400) return { status: "missing" };
     if (!res.ok) return { status: "error" };
     const json = await res.json();

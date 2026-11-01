@@ -36,7 +36,7 @@ function youtubeId(url: string) {
 /** A block the admin added: its texts are editable like everything else, the image or video link is set with the button. */
 function CustomBlock({ block, onProps }: { block: Block; onProps: (p: Record<string, string>) => void }) {
   const { editing } = useEdit();
-  const url = block.props?.url ?? "";
+  const url = block.props?.["url"] ?? "";
   const ask = () => {
     const next = prompt(block.kind === "image" ? "Link naar de afbeelding (https://...)" : "Link naar de video (mp4 of YouTube)", url);
     if (next !== null) onProps({ ...(block.props ?? {}), url: next.trim() });

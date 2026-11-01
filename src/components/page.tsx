@@ -36,7 +36,7 @@ export function Section({ id, title, children }: { id: string; title: string; ch
 }
 
 /** A normal sub page: the top bar, a big title and the content. */
-export function PageShell({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+export function PageShell({ title, subtitle, children }: { title: string; subtitle?: string | undefined; children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
   return (
     <SiteLayout>

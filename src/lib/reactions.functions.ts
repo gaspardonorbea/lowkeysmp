@@ -24,7 +24,7 @@ export const toggleAnonLike = createServerFn({ method: "POST" })
       if (error) throw new Error("Like verwijderen mislukt");
       return { liked: false as const, likeId: null };
     }
-    const like =
+    const like: { announcement_id: string | null; trailer_id: string | null; visitor_id: string; user_id: null } =
       data.kind === "announcement"
         ? { announcement_id: data.targetId, trailer_id: null, visitor_id: data.visitorId, user_id: null }
         : { announcement_id: null, trailer_id: data.targetId, visitor_id: data.visitorId, user_id: null };

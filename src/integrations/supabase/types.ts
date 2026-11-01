@@ -20,6 +20,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          images: string[]
           pinned: boolean
           title: string
         }
@@ -28,6 +29,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          images?: string[]
           pinned?: boolean
           title: string
         }
@@ -36,6 +38,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          images?: string[]
           pinned?: boolean
           title?: string
         }
@@ -134,6 +137,36 @@ export type Database = {
           },
         ]
       }
+      death_reports: {
+        Row: {
+          cause: string | null
+          created_at: string
+          died_at: string
+          id: string
+          location: string
+          player_name: string
+          status: string
+        }
+        Insert: {
+          cause?: string | null
+          created_at?: string
+          died_at?: string
+          id?: string
+          location?: string
+          player_name: string
+          status?: string
+        }
+        Update: {
+          cause?: string | null
+          created_at?: string
+          died_at?: string
+          id?: string
+          location?: string
+          player_name?: string
+          status?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
           amount: number
@@ -185,14 +218,14 @@ export type Database = {
           death_cause: string | null
           death_location: string | null
           died_at: string | null
-          revived_at: string | null
-          main_died_at: string | null
-          main_death_cause: string | null
-          island_died_at: string | null
-          island_death_cause: string | null
           id: string
           is_dead: boolean
+          island_death_cause: string | null
+          island_died_at: string | null
+          main_death_cause: string | null
+          main_died_at: string | null
           name: string
+          revived_at: string | null
           role: string
           team: string | null
         }
@@ -201,14 +234,14 @@ export type Database = {
           death_cause?: string | null
           death_location?: string | null
           died_at?: string | null
-          revived_at?: string | null
-          main_died_at?: string | null
-          main_death_cause?: string | null
-          island_died_at?: string | null
-          island_death_cause?: string | null
           id?: string
           is_dead?: boolean
+          island_death_cause?: string | null
+          island_died_at?: string | null
+          main_death_cause?: string | null
+          main_died_at?: string | null
           name: string
+          revived_at?: string | null
           role?: string
           team?: string | null
         }
@@ -217,24 +250,34 @@ export type Database = {
           death_cause?: string | null
           death_location?: string | null
           died_at?: string | null
-          revived_at?: string | null
-          main_died_at?: string | null
-          main_death_cause?: string | null
-          island_died_at?: string | null
-          island_death_cause?: string | null
           id?: string
           is_dead?: boolean
+          island_death_cause?: string | null
+          island_died_at?: string | null
+          main_death_cause?: string | null
+          main_died_at?: string | null
           name?: string
+          revived_at?: string | null
           role?: string
           team?: string | null
         }
         Relationships: []
       }
-ng
-          is_dead?: boolean
-          name?: string
-          role?: string
-          team?: string | null
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }
@@ -263,6 +306,7 @@ ng
         Row: {
           created_at: string
           id: string
+          kind: string
           released_at: string
           title: string
           video_url: string | null
@@ -271,6 +315,7 @@ ng
         Insert: {
           created_at?: string
           id?: string
+          kind?: string
           released_at?: string
           title: string
           video_url?: string | null
@@ -279,6 +324,7 @@ ng
         Update: {
           created_at?: string
           id?: string
+          kind?: string
           released_at?: string
           title?: string
           video_url?: string | null

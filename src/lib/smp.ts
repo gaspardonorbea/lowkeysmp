@@ -2,10 +2,23 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 
+export type AnnouncementRow = {
+  id: string; title: string; body: string; pinned: boolean; created_at: string;
+  image_url: string | null; images: string[]; /** storage paths of every photo (old single photo included) */ paths: string[]; /** signed urls, same order as paths */ photos: string[];
+};
+
+const signAnnouncementPath = async (saved: string): Promise<string | null> => {
+  const isBucketUrl = saved.includes("/announcement-images/");
+  const path = isBucketUrl ? saved.split("/announcement-images/")[1]?.split("?")[0] : saved;
+  if (!path || (saved.startsWith("http") && !isBucketUrl)) return saved.startsWith("http") ? saved : null;
+  const { data } = await supabase.storage.from("announcement-images").createSignedUrl(decodeURIComponent(path), 60 * 60 * 24 * 7);
+  return data?.signedUrl ?? null;
+};
+
 export function useAnnouncements() {
   return useQuery({
     queryKey: ["announcements"],
-    queryFn: async () => {
+    queryFn: async (): Promise<AnnouncementRow[]> => {
       const { data, error } = await supabase
         .from("announcements")
         .select("*")
@@ -13,18 +26,11 @@ export function useAnnouncements() {
         .order("created_at", { ascending: false });
       if (error) throw error;
       return Promise.all(
-        data.map(async (announcement) => {
-          if (!announcement.image_url) return announcement;
-          const savedImage = announcement.image_url;
-          const isBucketUrl = savedImage.includes("/announcement-images/");
-          const imagePath = isBucketUrl
-            ? savedImage.split("/announcement-images/")[1]?.split("?")[0]
-            : savedImage;
-          if (!imagePath || (savedImage.startsWith("http") && !isBucketUrl)) return announcement;
-          const { data: signedImage } = await supabase.storage
-            .from("announcement-images")
-            .createSignedUrl(decodeURIComponent(imagePath), 60 * 60 * 24 * 7);
-          return { ...announcement, image_url: signedImage?.signedUrl ?? null };
+        (data as unknown as (Omit<AnnouncementRow, "photos" | "images" | "paths"> & { images?: string[] | null })[]).map(async (a) => {
+          const all = [...new Set([...(a.image_url ? [a.image_url] : []), ...(a.images ?? [])])];
+          const signed = await Promise.all(all.map(signAnnouncementPath));
+          const pairs = all.map((path, i) => ({ path, url: signed[i] })).filter((x): x is { path: string; url: string } => !!x.url);
+          return { ...a, images: a.images ?? [], paths: pairs.map((x) => x.path), photos: pairs.map((x) => x.url), image_url: pairs[0]?.url ?? null };
         }),
       );
     },

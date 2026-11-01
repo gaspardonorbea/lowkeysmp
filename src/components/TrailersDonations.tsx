@@ -4,7 +4,7 @@ import { ContentReactions } from "@/components/ContentReactions";
 
 type Trailer = NonNullable<ReturnType<typeof useTrailers>["data"]>[number];
 
-function Player({ t }: { t: Trailer }) {
+export function Player({ t }: { t: Trailer }) {
   if (t.youtube_id)
     return (
       <iframe

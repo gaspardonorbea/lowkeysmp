@@ -115,7 +115,14 @@ export function Players() {
           <h2 className="text-2xl font-bold">Spelers & deaths</h2>
           <p className="mt-1 text-sm text-muted-foreground">Zoek, filter of blader door de spelerslijst.</p>
         </div>
-        <span className="font-pixel text-xs text-primary">{allPlayers.length} spelers</span>
+        <div className="flex items-center gap-3">
+          <span className="font-pixel text-xs text-primary">{allPlayers.length} spelers</span>
+          <button type="button" className="btn-block btn-block-secondary !py-1.5 text-xs" onClick={async () => {
+            if (!confirm("Alle statistieken (speeltijd, kills, …) wissen? De spelerslijst zelf blijft staan.")) return;
+            const { error } = await supabase.rpc("clear_player_stats");
+            alert(error ? `Wissen mislukt: ${error.message}` : "Alle statistieken zijn gewist.");
+          }}>🗑 Alle stats wissen</button>
+        </div>
       </div>
       <form onSubmit={add} className="block-card mb-4 flex flex-wrap gap-3 p-4">
         <input className="field flex-1" placeholder="Minecraft naam" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -171,7 +178,9 @@ export function Players() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   <fieldset className="space-y-2 border border-primary/30 bg-primary/5 p-3">
                     <label className="flex items-center gap-2 text-sm font-semibold">
-                      <input type="checkbox" checked={!!p.main_died_at} onChange={(e) => update(p.id, { main_died_at: e.target.checked ? (p.main_died_at ?? p.died_at ?? new Date().toISOString()) : null, main_death_cause: e.target.checked ? (p.main_death_cause ?? p.death_cause ?? null) : null })} />
+                      <input type="checkbox" checked={!!p.main_died_at} onChange={(e) => update(p.id, e.target.checked
+                        ? { main_died_at: p.main_died_at ?? p.died_at ?? new Date().toISOString(), main_death_cause: p.main_death_cause ?? p.death_cause ?? null, is_dead: true }
+                        : { main_died_at: null, main_death_cause: null, island_died_at: null, island_death_cause: null, revived_at: null, is_dead: false })} />
                       Dood op het hoofdeiland
                     </label>
                     {p.main_died_at && (

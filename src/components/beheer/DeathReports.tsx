@@ -31,15 +31,19 @@ function Row({ r, done }: { r: DeathReport; done: () => void }) {
     setBusy(true);
     const at = new Date(when).toISOString();
     const text = cause.trim().slice(0, 200) || null;
-    const { data: found } = await supabase.from("players").select("id").ilike("name", r.player_name).limit(1);
+    const { data: found } = await supabase.from("players").select("id, main_died_at").ilike("name", r.player_name.replace(/[\\%_]/g, "\\$&")).limit(1);
+    const hadMain = !!found?.[0]?.main_died_at;
+    const place = loc === "island" && !hadMain ? "main" : loc; // iedereen sterft eerst op het hoofdeiland
     const patch = {
-      is_dead: true, died_at: at, death_cause: text, death_location: loc,
-      ...(loc === "main" ? { main_died_at: at, main_death_cause: text } : { island_died_at: at, island_death_cause: text }),
+      is_dead: true, died_at: at, death_cause: text, death_location: place, revived_at: null,
+      ...(place === "main" ? { main_died_at: at, main_death_cause: text } : { island_died_at: at, island_death_cause: text }),
     };
     const id = found?.[0]?.id;
-    if (id) await supabase.from("players").update(patch).eq("id", id);
-    else await supabase.from("players").insert({ name: r.player_name, role: "Speler", ...patch });
-    await db.from("death_reports").update({ status: "approved", died_at: at, cause: text, location: loc }).eq("id", r.id);
+    const { error } = id
+      ? await supabase.from("players").update(patch).eq("id", id)
+      : await supabase.from("players").insert({ name: r.player_name, role: "Speler", ...patch });
+    if (error) { alert(`Goedkeuren mislukt: ${error.message}`); setBusy(false); return; }
+    await db.from("death_reports").update({ status: "approved", died_at: at, cause: text, location: place }).eq("id", r.id);
     sendPush("deaths", `☠ ${r.player_name} is dood`, text ?? `${r.player_name} is gestorven op LowkeySMP.`);
     qc.invalidateQueries({ queryKey: ["players"] });
     setBusy(false); done();

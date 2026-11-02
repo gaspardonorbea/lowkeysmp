@@ -34,7 +34,7 @@ async function authorized(request: Request) {
   if (!m) return false;
   const { createHash, timingSafeEqual } = await import("node:crypto");
   const d = (v: string) => createHash("sha256").update(v, "utf8").digest();
-  return timingSafeEqual(d(m[1]), d(secret));
+  return timingSafeEqual(d(m[1] ?? ""), d(secret));
 }
 
 export const Route = createFileRoute("/api/plugin")({

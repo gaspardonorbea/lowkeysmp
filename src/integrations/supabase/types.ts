@@ -212,6 +212,39 @@ export type Database = {
         }
         Relationships: []
       }
+      player_stats: {
+        Row: {
+          jumps: number
+          kills: number
+          km_walked: number
+          name: string
+          playtime_seconds: number
+          totem_pops: number
+          updated_at: string
+          uuid: string
+        }
+        Insert: {
+          jumps?: number
+          kills?: number
+          km_walked?: number
+          name: string
+          playtime_seconds?: number
+          totem_pops?: number
+          updated_at?: string
+          uuid: string
+        }
+        Update: {
+          jumps?: number
+          kills?: number
+          km_walked?: number
+          name?: string
+          playtime_seconds?: number
+          totem_pops?: number
+          updated_at?: string
+          uuid?: string
+        }
+        Relationships: []
+      }
       players: {
         Row: {
           created_at: string

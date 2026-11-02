@@ -178,22 +178,23 @@ export function Players() {
                       <div className="space-y-2">
                         <input type="datetime-local" aria-label="Datum dood hoofdeiland" className="field" defaultValue={new Date(new Date(p.main_died_at).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)} onBlur={(e) => update(p.id, { main_died_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
                         <input className="field" placeholder="Doodsoorzaak hoofdeiland" defaultValue={p.main_death_cause ?? ""} onBlur={(e) => update(p.id, { main_death_cause: e.target.value.slice(0, 200) || null })} />
+                        <label className="flex items-center gap-2 text-sm text-emerald-300">
+                          <input type="checkbox" disabled={!!p.island_died_at} checked={!!p.revived_at} onChange={(e) => update(p.id, { revived_at: e.target.checked ? "2026-11-18T19:00:00+01:00" : null, is_dead: !e.target.checked })} />
+                          Herleefd bij finale (18 nov)
+                        </label>
                       </div>
                     )}
                   </fieldset>
-                  <fieldset className="space-y-2 border border-secondary/30 bg-secondary/5 p-3">
+                  <fieldset disabled={!p.main_died_at} className={`space-y-2 border border-secondary/30 bg-secondary/5 p-3 ${!p.main_died_at ? "opacity-50" : ""}`}>
                     <label className="flex items-center gap-2 text-sm font-semibold">
-                      <input type="checkbox" checked={!!p.island_died_at} onChange={(e) => update(p.id, { island_died_at: e.target.checked ? (p.island_died_at ?? (p.death_location === "island" ? p.died_at : null) ?? new Date().toISOString()) : null, island_death_cause: e.target.checked ? (p.island_death_cause ?? (p.death_location === "island" ? p.death_cause : null) ?? null) : null })} />
+                      <input type="checkbox" checked={!!p.island_died_at} onChange={(e) => update(p.id, { island_died_at: e.target.checked ? (p.island_died_at ?? new Date().toISOString()) : null, island_death_cause: e.target.checked ? (p.island_death_cause ?? null) : null, ...(e.target.checked ? { revived_at: null, is_dead: true } : {}) })} />
                       Dood op Verliezers-eiland
                     </label>
+                    {!p.main_died_at && <p className="text-xs text-muted-foreground">Kan pas als de speler eerst op het hoofdeiland gestorven is.</p>}
                     {p.island_died_at && (
                       <div className="space-y-2">
                         <input type="datetime-local" aria-label="Datum dood Verliezers-eiland" className="field" defaultValue={new Date(new Date(p.island_died_at).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)} onBlur={(e) => update(p.id, { island_died_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
                         <input className="field" placeholder="Doodsoorzaak Verliezers-eiland" defaultValue={p.island_death_cause ?? ""} onBlur={(e) => update(p.id, { island_death_cause: e.target.value.slice(0, 200) || null })} />
-                        <label className="flex items-center gap-2 text-sm text-emerald-300">
-                          <input type="checkbox" checked={!!p.revived_at} onChange={(e) => update(p.id, { revived_at: e.target.checked ? "2026-11-18T12:00:00+01:00" : null, is_dead: !e.target.checked })} />
-                          Herleefd bij finale (18 nov)
-                        </label>
                       </div>
                     )}
                   </fieldset>

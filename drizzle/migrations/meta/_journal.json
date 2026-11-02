@@ -64,6 +64,13 @@
       "when": 1793544030425,
       "tag": "0008_site_cms_death_reports",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793577917468,
+      "tag": "0009_player_stats",
+      "breakpoints": true
     }
   ]
 }

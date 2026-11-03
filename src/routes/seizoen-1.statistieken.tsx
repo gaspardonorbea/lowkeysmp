@@ -151,8 +151,8 @@ function Statistieken() {
             </div>
           </Reveal>
           <Reveal>
-            <h2 className="mb-4 text-2xl font-bold text-primary">Spelers opzoeken</h2>
-            <PlayerStatsTable />
+            <h2 className="mb-4 text-2xl font-bold text-primary">Spelersstats</h2>
+            <PlayerStatsTable players={all} />
           </Reveal>
         </div>
       )}

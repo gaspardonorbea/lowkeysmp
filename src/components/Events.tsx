@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 
-type Ev = { at: string; title: string; island: "hoofd" | "verliezers" };
-const EVENTS: Ev[] = [
+export type Ev = { at: string; title: string; island: "hoofd" | "verliezers" };
+export const EVENTS: Ev[] = [
   { at: "2026-11-07T14:00:00+01:00", title: "Server Open", island: "hoofd" },
-  { at: "2026-11-11T14:00:00+01:00", title: "Verliezerseiland start", island: "verliezers" },
-  { at: "2026-11-13T14:00:00+01:00", title: "IJsmuur smelt", island: "hoofd" },
+  { at: "2026-11-11T19:00:00+01:00", title: "Verliezerseiland start", island: "verliezers" },
+  { at: "2026-11-13T18:00:00+01:00", title: "IJsmuur smelt", island: "hoofd" },
   { at: "2026-11-14T14:00:00+01:00", title: "Nether open", island: "hoofd" },
-  { at: "2026-11-15T14:00:00+01:00", title: "End open", island: "hoofd" },
-  { at: "2026-11-18T14:00:00+01:00", title: "Finale Verliezerseiland", island: "verliezers" },
-  { at: "2026-11-21T14:00:00+01:00", title: "Hoofdfinale", island: "hoofd" },
+  { at: "2026-11-15T18:00:00+01:00", title: "End open", island: "hoofd" },
+  { at: "2026-11-18T19:00:00+01:00", title: "Finale Verliezerseiland", island: "verliezers" },
+  { at: "2026-11-21T19:00:00+01:00", title: "Hoofdfinale", island: "hoofd" },
 ];
-const DAY = 86400000;
-const fmt = (d: Date) => d.toLocaleDateString("nl-BE", { weekday: "short", day: "numeric", month: "short", timeZone: "Europe/Brussels" });
+export const DAY = 86400000;
+export const tm = (d: Date) => d.toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Brussels" });
+export const fmt = (d: Date) => d.toLocaleDateString("nl-BE", { weekday: "short", day: "numeric", month: "short", timeZone: "Europe/Brussels" });
 
 export function Events() {
   const [now, setNow] = useState<number | null>(null);
@@ -26,7 +27,7 @@ export function Events() {
         <div className="block-card pop-in border-primary p-6 text-center shadow-[0_0_40px_hsl(var(--primary)/0.25)]">
           <p className="font-pixel text-xs uppercase tracking-widest text-secondary">Volgend event</p>
           <h3 className="mt-2 font-pixel text-3xl text-primary">{next.title}</h3>
-          <p className="mt-1 text-muted-foreground">{fmt(new Date(next.at))} · 14:00</p>
+          <p className="mt-1 text-muted-foreground">{fmt(new Date(next.at))} · {tm(new Date(next.at))}</p>
           <div className="mt-4 flex justify-center gap-3 font-pixel">
             {parts.map((v, i) => (
               <span key={i} className="min-w-14 border-2 border-border bg-background/60 px-2 py-1"><span className="block text-2xl">{v}</span><span className="text-[10px] text-muted-foreground">{["dagen", "uur", "min", "sec"][i]}</span></span>

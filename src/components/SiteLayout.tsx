@@ -9,6 +9,7 @@ import { AdminBar } from "@/components/AdminBar";
 const SEASON_LINKS = [
   { to: "/seizoen-1/deelnemers", label: "Deelnemers" },
   { to: "/seizoen-1/deaths", label: "Deaths" },
+  { to: "/seizoen-1/events", label: "Events" },
   { to: "/seizoen-1/statistieken", label: "Statistieken" },
 ] as const;
 

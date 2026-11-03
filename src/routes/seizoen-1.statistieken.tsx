@@ -55,7 +55,21 @@ const COLS: { key: SortKey; label: string }[] = [
 ];
 const fmtTime = (s: number) => { const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}u ${m}m`; };
 
-function PlayerStatsTable() {
+const fmtVal = (k: SortKey, v: number) =>
+  k === "playtime_seconds" ? fmtTime(v) : k === "km_walked" ? `${v.toFixed(1)} km` : `${v} ${COLS.find((c) => c.key === k)!.label.toLowerCase()}`;
+
+function Seg<T extends string>({ value, set, opts }: { value: T; set: (v: T) => void; opts: [T, string][] }) {
+  return (
+    <div className="flex overflow-hidden border-2 border-border">
+      {opts.map(([v, l]) => (
+        <button key={v} type="button" aria-pressed={value === v} onClick={() => set(v)}
+          className={`px-3 py-1.5 text-xs font-semibold transition-colors ${value === v ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>{l}</button>
+      ))}
+    </div>
+  );
+}
+
+function PlayerStatsTable({ players }: { players: NonNullable<ReturnType<typeof usePlayers>["data"]> }) {
   const stats = useQuery({
     queryKey: ["player_stats"],
     queryFn: async () => {
@@ -66,49 +80,40 @@ function PlayerStatsTable() {
   });
   const [q, setQ] = useState("");
   const [sort, setSort] = useState<SortKey>("playtime_seconds");
-  const rows = useMemo(
-    () => (stats.data ?? [])
-      .filter((r) => r.name.toLowerCase().includes(q.trim().toLowerCase()))
-      .sort((a, b) => Number(b[sort]) - Number(a[sort])),
-    [stats.data, q, sort],
-  );
+  const [team, setTeam] = useState<"all" | "noord" | "zuid">("all");
+  const [life, setLife] = useState<"all" | "alive" | "dead">("all");
+  const byName = useMemo(() => new Map(players.map((p) => [p.name.toLowerCase(), p])), [players]);
+  const ranked = useMemo(() => (stats.data ?? [])
+    .map((r) => ({ ...r, p: byName.get(r.name.toLowerCase()) }))
+    .filter((r) => team === "all" || r.p?.team === team)
+    .filter((r) => life === "all" || !!r.p?.is_dead === (life === "dead"))
+    .sort((a, b) => Number(b[sort]) - Number(a[sort])), [stats.data, byName, team, life, sort]);
+  const shown = ranked.map((r, i) => ({ r, rank: i + 1 })).filter(({ r }) => r.name.toLowerCase().includes(q.trim().toLowerCase()));
+  const badge = (n: number) => n === 1 ? "bg-gold text-background" : n === 2 ? "bg-muted-foreground text-background" : n === 3 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground";
   return (
-    <div className="block-card p-5">
-      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Zoek een speler..." aria-label="Zoek een speler"
-        className="mb-4 w-full border-2 border-border bg-background px-3 py-2 text-foreground" />
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b-2 border-border text-left">
-              <th className="py-2 pr-3">#</th>
-              <th className="py-2 pr-3">Speler</th>
-              {COLS.map((c) => (
-                <th key={c.key} className="py-2 pr-3 text-right">
-                  <button onClick={() => setSort(c.key)} className={`font-pixel ${sort === c.key ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}>
-                    {c.label}{sort === c.key ? " ▼" : ""}
-                  </button>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {stats.isLoading && <tr><td colSpan={7} className="py-4 text-center text-muted-foreground">Laden...</td></tr>}
-            {!stats.isLoading && rows.length === 0 && <tr><td colSpan={7} className="py-4 text-center text-muted-foreground">Geen spelers gevonden.</td></tr>}
-            {rows.map((r, i) => (
-              <tr key={r.uuid} className="border-b border-border/50">
-                <td className="py-2 pr-3 font-pixel text-muted-foreground">{i + 1}</td>
-                <td className="py-2 pr-3">
-                  <div className="flex items-center gap-2"><Skin name={r.name} size={28} className="h-7 w-7" /><span className="font-pixel">{r.name}</span></div>
-                </td>
-                <td className="py-2 pr-3 text-right">{fmtTime(r.playtime_seconds)}</td>
-                <td className="py-2 pr-3 text-right">{r.totem_pops}</td>
-                <td className="py-2 pr-3 text-right">{r.kills}</td>
-                <td className="py-2 pr-3 text-right">{r.jumps}</td>
-                <td className="py-2 pr-3 text-right">{Number(r.km_walked).toFixed(1)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="space-y-4">
+      <div className="block-card flex flex-wrap items-center gap-3 p-4">
+        <select className="field w-auto" aria-label="Sorteer op" value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+          {COLS.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+        </select>
+        <Seg value={team} set={setTeam} opts={[["all", "Alle"], ["noord", "🔴 Noord"], ["zuid", "🔵 Zuid"]]} />
+        <Seg value={life} set={setLife} opts={[["all", "Alle"], ["alive", "Levend"], ["dead", "Uitgeschakeld"]]} />
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔍 Zoek speler" aria-label="Zoek een speler" className="field ml-auto w-40" />
+      </div>
+      {stats.isLoading && <p className="text-center text-muted-foreground">Laden...</p>}
+      {!stats.isLoading && shown.length === 0 && <p className="text-center text-muted-foreground">Geen spelers gevonden.</p>}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {shown.map(({ r, rank }) => (
+          <div key={r.uuid} className={`block-card card-hover relative p-4 text-center ${r.p?.is_dead ? "opacity-60 grayscale" : ""}`}>
+            <span className={`absolute left-3 top-3 grid size-6 place-items-center rounded-full text-xs font-bold ${badge(rank)}`}>{rank}</span>
+            <Skin name={r.name} size={48} className="mx-auto mb-2 size-12 [image-rendering:pixelated]" />
+            <p className="truncate font-pixel font-bold">{r.name}</p>
+            <p className="text-sm font-semibold text-primary">{fmtVal(sort, Number(r[sort]))}</p>
+            {r.p?.main_died_at && !r.p.revived_at && (
+              <p className="text-xs text-destructive">{r.p.island_died_at ? "Uitgeschakeld" : "Verliezerseiland"}</p>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

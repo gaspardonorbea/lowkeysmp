@@ -142,6 +142,7 @@ export type Database = {
           cause: string | null
           created_at: string
           died_at: string
+          event_id: string | null
           id: string
           location: string
           player_name: string
@@ -151,6 +152,7 @@ export type Database = {
           cause?: string | null
           created_at?: string
           died_at?: string
+          event_id?: string | null
           id?: string
           location?: string
           player_name: string
@@ -160,6 +162,7 @@ export type Database = {
           cause?: string | null
           created_at?: string
           died_at?: string
+          event_id?: string | null
           id?: string
           location?: string
           player_name?: string

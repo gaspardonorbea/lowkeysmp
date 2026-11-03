@@ -16,6 +16,7 @@ import { Route as BeheerRouteImport } from './routes/beheer'
 import { Route as ApiPluginRouteImport } from './routes/api/plugin'
 import { Route as Seizoen1DeathsRouteImport } from './routes/seizoen-1.deaths'
 import { Route as Seizoen1DeelnemersRouteImport } from './routes/seizoen-1.deelnemers'
+import { Route as Seizoen1EventsRouteImport } from './routes/seizoen-1.events'
 import { Route as Seizoen1StatistiekenRouteImport } from './routes/seizoen-1.statistieken'
 
 const IndexRoute = IndexRouteImport.update({
@@ -53,6 +54,11 @@ const Seizoen1DeelnemersRoute = Seizoen1DeelnemersRouteImport.update({
   path: '/seizoen-1/deelnemers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Seizoen1EventsRoute = Seizoen1EventsRouteImport.update({
+  id: '/seizoen-1/events',
+  path: '/seizoen-1/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Seizoen1StatistiekenRoute = Seizoen1StatistiekenRouteImport.update({
   id: '/seizoen-1/statistieken',
   path: '/seizoen-1/statistieken',
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/api/plugin': typeof ApiPluginRoute
   '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
   '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
+  '/seizoen-1/events': typeof Seizoen1EventsRoute
   '/seizoen-1/statistieken': typeof Seizoen1StatistiekenRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/api/plugin': typeof ApiPluginRoute
   '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
   '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
+  '/seizoen-1/events': typeof Seizoen1EventsRoute
   '/seizoen-1/statistieken': typeof Seizoen1StatistiekenRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/api/plugin': typeof ApiPluginRoute
   '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
   '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
+  '/seizoen-1/events': typeof Seizoen1EventsRoute
   '/seizoen-1/statistieken': typeof Seizoen1StatistiekenRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/api/plugin'
     | '/seizoen-1/deaths'
     | '/seizoen-1/deelnemers'
+    | '/seizoen-1/events'
     | '/seizoen-1/statistieken'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/api/plugin'
     | '/seizoen-1/deaths'
     | '/seizoen-1/deelnemers'
+    | '/seizoen-1/events'
     | '/seizoen-1/statistieken'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/api/plugin'
     | '/seizoen-1/deaths'
     | '/seizoen-1/deelnemers'
+    | '/seizoen-1/events'
     | '/seizoen-1/statistieken'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   ApiPluginRoute: typeof ApiPluginRoute
   Seizoen1DeathsRoute: typeof Seizoen1DeathsRoute
   Seizoen1DeelnemersRoute: typeof Seizoen1DeelnemersRoute
+  Seizoen1EventsRoute: typeof Seizoen1EventsRoute
   Seizoen1StatistiekenRoute: typeof Seizoen1StatistiekenRoute
 }
 
@@ -185,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Seizoen1DeelnemersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seizoen-1/events': {
+      id: '/seizoen-1/events'
+      path: '/seizoen-1/events'
+      fullPath: '/seizoen-1/events'
+      preLoaderRoute: typeof Seizoen1EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seizoen-1/statistieken': {
       id: '/seizoen-1/statistieken'
       path: '/seizoen-1/statistieken'
@@ -203,6 +223,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPluginRoute: ApiPluginRoute,
   Seizoen1DeathsRoute: Seizoen1DeathsRoute,
   Seizoen1DeelnemersRoute: Seizoen1DeelnemersRoute,
+  Seizoen1EventsRoute: Seizoen1EventsRoute,
   Seizoen1StatistiekenRoute: Seizoen1StatistiekenRoute,
 }
 export const routeTree = rootRouteImport

@@ -48,7 +48,7 @@ export function Events() {
                 <span className={e.island === "hoofd" ? "text-primary" : "text-secondary"}>{e.island === "hoofd" ? "Hoofdeiland" : "Verliezerseiland"}</span>
               </div>
               <p className="mt-1 font-pixel text-lg">{e.title}</p>
-              <p className="text-xs text-muted-foreground">{done ? "✔ Voltooid" : live ? "🟢 Nu bezig" : `over ${days} dag${days === 1 ? "" : "en"}`}</p>
+              <p className="text-xs text-muted-foreground">{done ? "Voltooid" : live ? "Nu bezig" : `over ${days} dag${days === 1 ? "" : "en"}`}</p>
             </div>
           );
         })}

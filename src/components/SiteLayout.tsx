@@ -116,6 +116,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <T k="nav.announcements" def="Aankondigingen" />
             </Link>
             <SeasonMenu />
+            <Link to="/faq" className={linkBase} activeProps={{ className: linkActive }}>
+              <T k="nav.faq" def="Vragen" />
+            </Link>
           </div>
           <div className="ml-auto hidden md:block"><CopyIp /></div>
           <button
@@ -133,6 +136,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             <div className="flex flex-col">
               <Link to="/" activeOptions={{ exact: true }} className={`${linkBase} py-3`} activeProps={{ className: linkActive }}><T k="nav.home" def="Hoofdpagina" /></Link>
               <Link to="/aankondigingen" className={`${linkBase} py-3`} activeProps={{ className: linkActive }}><T k="nav.announcements" def="Aankondigingen" /></Link>
+              <Link to="/faq" className={`${linkBase} py-3`} activeProps={{ className: linkActive }}><T k="nav.faq" def="Vragen" /></Link>
               <p className="px-1 pb-1 pt-3 font-pixel text-xs uppercase tracking-widest text-muted-foreground/70"><T k="nav.season" def="Seizoen 1" /></p>
               {SEASON_LINKS.map((l) => (
                 <Link key={l.to} to={l.to} className={`${linkBase} py-2.5 pl-4`} activeProps={{ className: linkActive }}><T k={`nav.${l.to}`} def={l.label} /></Link>

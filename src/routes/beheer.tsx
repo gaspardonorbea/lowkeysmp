@@ -13,6 +13,8 @@ import { AnnouncementsAdmin } from "@/components/beheer/Announcements";
 import { VideosAdmin } from "@/components/beheer/Videos";
 import { DeathReports, usePendingDeaths } from "@/components/beheer/DeathReports";
 import { Settings } from "@/components/beheer/Settings";
+import { FaqAdmin } from "@/components/beheer/FaqAdmin";
+import { HelpCircle } from "lucide-react";
 
 export const Route = createFileRoute("/beheer")({
   head: () => ({
@@ -34,6 +36,7 @@ const TABS = [
   { id: "trailers", label: "Video's", icon: Video },
   { id: "donaties", label: "Donaties", icon: Heart },
   { id: "uren", label: "Openingsuren", icon: Clock },
+  { id: "vragen", label: "Vragen", icon: HelpCircle },
   { id: "skins", label: "Skin zoeken", icon: Search },
   { id: "instellingen", label: "Instellingen", icon: Cog },
 ] as const;
@@ -192,6 +195,7 @@ function Dashboard() {
         {tab === "trailers" && <VideosAdmin />}
         {tab === "donaties" && <Donations />}
         {tab === "uren" && <Hours />}
+        {tab === "vragen" && <FaqAdmin />}
         {tab === "skins" && <SkinLookup />}
         {tab === "instellingen" && <Settings />}
       </main>

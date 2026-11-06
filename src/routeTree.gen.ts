@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AankondigingenRouteImport } from './routes/aankondigingen'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BeheerRouteImport } from './routes/beheer'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ApiPluginRouteImport } from './routes/api/plugin'
 import { Route as Seizoen1DeathsRouteImport } from './routes/seizoen-1.deaths'
 import { Route as Seizoen1DeelnemersRouteImport } from './routes/seizoen-1.deelnemers'
@@ -37,6 +38,11 @@ const AdminRoute = AdminRouteImport.update({
 const BeheerRoute = BeheerRouteImport.update({
   id: '/beheer',
   path: '/beheer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPluginRoute = ApiPluginRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/aankondigingen': typeof AankondigingenRoute
   '/admin': typeof AdminRoute
   '/beheer': typeof BeheerRoute
+  '/faq': typeof FaqRoute
   '/api/plugin': typeof ApiPluginRoute
   '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
   '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/aankondigingen': typeof AankondigingenRoute
   '/admin': typeof AdminRoute
   '/beheer': typeof BeheerRoute
+  '/faq': typeof FaqRoute
   '/api/plugin': typeof ApiPluginRoute
   '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
   '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/aankondigingen': typeof AankondigingenRoute
   '/admin': typeof AdminRoute
   '/beheer': typeof BeheerRoute
+  '/faq': typeof FaqRoute
   '/api/plugin': typeof ApiPluginRoute
   '/seizoen-1/deaths': typeof Seizoen1DeathsRoute
   '/seizoen-1/deelnemers': typeof Seizoen1DeelnemersRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/aankondigingen'
     | '/admin'
     | '/beheer'
+    | '/faq'
     | '/api/plugin'
     | '/seizoen-1/deaths'
     | '/seizoen-1/deelnemers'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/aankondigingen'
     | '/admin'
     | '/beheer'
+    | '/faq'
     | '/api/plugin'
     | '/seizoen-1/deaths'
     | '/seizoen-1/deelnemers'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/aankondigingen'
     | '/admin'
     | '/beheer'
+    | '/faq'
     | '/api/plugin'
     | '/seizoen-1/deaths'
     | '/seizoen-1/deelnemers'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   AankondigingenRoute: typeof AankondigingenRoute
   AdminRoute: typeof AdminRoute
   BeheerRoute: typeof BeheerRoute
+  FaqRoute: typeof FaqRoute
   ApiPluginRoute: typeof ApiPluginRoute
   Seizoen1DeathsRoute: typeof Seizoen1DeathsRoute
   Seizoen1DeelnemersRoute: typeof Seizoen1DeelnemersRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/beheer'
       fullPath: '/beheer'
       preLoaderRoute: typeof BeheerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/plugin': {
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   AankondigingenRoute: AankondigingenRoute,
   AdminRoute: AdminRoute,
   BeheerRoute: BeheerRoute,
+  FaqRoute: FaqRoute,
   ApiPluginRoute: ApiPluginRoute,
   Seizoen1DeathsRoute: Seizoen1DeathsRoute,
   Seizoen1DeelnemersRoute: Seizoen1DeelnemersRoute,

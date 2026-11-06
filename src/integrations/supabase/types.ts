@@ -194,6 +194,36 @@ export type Database = {
         }
         Relationships: []
       }
+      faq: {
+        Row: {
+          answer: string | null
+          asker_name: string | null
+          created_at: string
+          id: string
+          published: boolean
+          question: string
+          sort: number
+        }
+        Insert: {
+          answer?: string | null
+          asker_name?: string | null
+          created_at?: string
+          id?: string
+          published?: boolean
+          question: string
+          sort?: number
+        }
+        Update: {
+          answer?: string | null
+          asker_name?: string | null
+          created_at?: string
+          id?: string
+          published?: boolean
+          question?: string
+          sort?: number
+        }
+        Relationships: []
+      }
       opening_hours: {
         Row: {
           day: string

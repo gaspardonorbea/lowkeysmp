@@ -416,6 +416,33 @@ export type Database = {
         }
         Relationships: []
       }
+      voice_rooms: {
+        Row: {
+          channel_key: string
+          created_at: string
+          id: string
+          is_private: boolean
+          name: string
+          password_hash: string | null
+        }
+        Insert: {
+          channel_key?: string
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          name: string
+          password_hash?: string | null
+        }
+        Update: {
+          channel_key?: string
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          name?: string
+          password_hash?: string | null
+        }
+        Relationships: []
+      }
       whitelist_requests: {
         Row: {
           created_at: string
@@ -442,17 +469,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      voice_rooms_public: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          is_private: boolean | null
+          name: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          is_private?: boolean | null
+          name?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          is_private?: boolean | null
+          name?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       claim_admin: { Args: never; Returns: boolean }
       clear_player_stats: { Args: never; Returns: undefined }
+      create_voice_room: {
+        Args: { _name: string; _password: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      join_voice_room: {
+        Args: { _id: string; _password: string }
+        Returns: string
       }
     }
     Enums: {

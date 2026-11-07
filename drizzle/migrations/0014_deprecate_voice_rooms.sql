@@ -1,0 +1,1 @@
+COMMENT ON TABLE public.voice_rooms IS 'DEPRECATED: bel-functie verwijderd uit de app; tabel niet meer in gebruik';

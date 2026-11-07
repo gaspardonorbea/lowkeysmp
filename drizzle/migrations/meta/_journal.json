@@ -99,6 +99,13 @@
       "when": 1794056094548,
       "tag": "0013_voice_rooms",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1794080222228,
+      "tag": "0014_deprecate_voice_rooms",
+      "breakpoints": true
     }
   ]
 }

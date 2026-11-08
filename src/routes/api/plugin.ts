@@ -78,10 +78,15 @@ export const Route = createFileRoute("/api/plugin")({
         }
 
         const now = new Date().toISOString();
+        // Kills that must not count (e.g. test kills) are subtracted on every sync.
+        const adj = await supabaseAdmin.from("player_stat_adjustments").select("uuid, kills_offset");
+        if (adj.error) return Response.json({ error: adj.error.message }, { status: 500 });
+        const offsets = new Map((adj.data ?? []).map((a) => [a.uuid, a.kills_offset]));
         const rows = body.players
           .filter((p) => p.name.trim().toLowerCase() !== IGNORED_STAT_NAME)
           .map((p) => ({
-            uuid: p.uuid, name: p.name, playtime_seconds: p.playtimeSeconds, kills: p.kills,
+            uuid: p.uuid, name: p.name, playtime_seconds: p.playtimeSeconds,
+            kills: Math.max(0, p.kills - (offsets.get(p.uuid) ?? 0)),
             totem_pops: p.totemPops, jumps: p.jumps, km_walked: p.kmWalked, updated_at: now,
           }));
         if (body.type === "statsReset") {

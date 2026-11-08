@@ -245,6 +245,27 @@ export type Database = {
         }
         Relationships: []
       }
+      player_stat_adjustments: {
+        Row: {
+          created_at: string
+          kills_offset: number
+          note: string | null
+          uuid: string
+        }
+        Insert: {
+          created_at?: string
+          kills_offset?: number
+          note?: string | null
+          uuid: string
+        }
+        Update: {
+          created_at?: string
+          kills_offset?: number
+          note?: string | null
+          uuid?: string
+        }
+        Relationships: []
+      }
       player_stats: {
         Row: {
           jumps: number

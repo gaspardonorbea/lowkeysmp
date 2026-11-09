@@ -15,3 +15,4 @@
 - First account to sign up claims admin via the `claim_admin()` RPC — avoids manual role setup for a small friend group.
 - Manual kill totals persist separately by player UUID; a database trigger projects them into player_stats on every write, preserving them across plugin statsReset and rejecting server kill totals. Admin changes use an admin-verified database RPC.
 - Public comments and like counts use content_comments/content_likes in Lovable Cloud; writes require a signed-in user and ownership is enforced by RLS, with admins allowed to moderate comments and a database cooldown to reduce spam.
+- Shared Skin heads use Crafthead first with alternate providers on failure; name lookups on the previous provider returned cached default skins for real players.

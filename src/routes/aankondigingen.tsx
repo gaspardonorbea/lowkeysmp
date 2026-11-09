@@ -9,6 +9,8 @@ export const Route = createFileRoute("/aankondigingen")({
       { title: "Aankondigingen — LowkeySMP" },
       { name: "description", content: "Al het nieuws en alle aankondigingen van LowkeySMP." },
       { property: "og:title", content: "Aankondigingen — LowkeySMP" },
+      { property: "og:description", content: "Al het nieuws en alle aankondigingen van LowkeySMP." },
+      { name: "twitter:card", content: "summary" },
       { property: "og:type", content: "website" },
     ],
   }),

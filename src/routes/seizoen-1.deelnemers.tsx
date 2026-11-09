@@ -9,6 +9,8 @@ export const Route = createFileRoute("/seizoen-1/deelnemers")({
       { title: "Deelnemers — LowkeySMP" },
       { name: "description", content: "Alle deelnemers van seizoen 1 van LowkeySMP, per team." },
       { property: "og:title", content: "Deelnemers — LowkeySMP" },
+      { property: "og:description", content: "Alle deelnemers van seizoen 1 van LowkeySMP, per team." },
+      { name: "twitter:card", content: "summary" },
       { property: "og:type", content: "website" },
     ],
   }),

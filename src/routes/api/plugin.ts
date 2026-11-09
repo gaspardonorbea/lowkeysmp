@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
+import { pluginStatRows } from "@/lib/plugin-stats";
 
 const Death = z.object({
   type: z.literal("death"),
@@ -26,9 +27,6 @@ const StatPlayers = z
 const Stats = z.object({ type: z.literal("stats"), players: StatPlayers });
 const StatsReset = z.object({ type: z.literal("statsReset"), players: StatPlayers });
 const Body = z.discriminatedUnion("type", [z.object({ type: z.literal("ping") }), Death, Stats, StatsReset]);
-
-/** The server's own account never counts as a player. */
-export const IGNORED_STAT_NAME = "lowkey_smp";
 
 async function authorized(request: Request) {
   const secret = process.env["PLUGIN_TOKEN"];
@@ -78,17 +76,7 @@ export const Route = createFileRoute("/api/plugin")({
         }
 
         const now = new Date().toISOString();
-        // Kills that must not count (e.g. test kills) are subtracted on every sync.
-        const adj = await supabaseAdmin.from("player_stat_adjustments").select("uuid, kills_offset");
-        if (adj.error) return Response.json({ error: adj.error.message }, { status: 500 });
-        const offsets = new Map((adj.data ?? []).map((a) => [a.uuid, a.kills_offset]));
-        const rows = body.players
-          .filter((p) => p.name.trim().toLowerCase() !== IGNORED_STAT_NAME)
-          .map((p) => ({
-            uuid: p.uuid, name: p.name, playtime_seconds: p.playtimeSeconds,
-            kills: Math.max(0, p.kills - (offsets.get(p.uuid) ?? 0)),
-            totem_pops: p.totemPops, jumps: p.jumps, km_walked: p.kmWalked, updated_at: now,
-          }));
+        const rows = pluginStatRows(body.players, now);
         if (body.type === "statsReset") {
           const { error } = await supabaseAdmin.from("player_stats").delete().not("uuid", "is", null);
           if (error) return Response.json({ error: error.message }, { status: 500 });

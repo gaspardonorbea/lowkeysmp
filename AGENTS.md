@@ -13,5 +13,5 @@
 
 - Site content (announcements, players/deaths, opening hours) lives in Lovable Cloud tables, editable only by admins via RLS — friends must share one live source of truth.
 - First account to sign up claims admin via the `claim_admin()` RPC — avoids manual role setup for a small friend group.
-- Stats corrections (e.g. kills that don't count) live in player_stat_adjustments and are subtracted in /api/plugin on every sync — the plugin resends raw server totals, so direct edits to player_stats get overwritten.
+- Manual kill totals persist separately by player UUID; a database trigger projects them into player_stats on every write, preserving them across plugin statsReset and rejecting server kill totals. Admin changes use an admin-verified database RPC.
 - Public comments and like counts use content_comments/content_likes in Lovable Cloud; writes require a signed-in user and ownership is enforced by RLS, with admins allowed to moderate comments and a database cooldown to reduce spam.

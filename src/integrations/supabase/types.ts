@@ -245,6 +245,24 @@ export type Database = {
         }
         Relationships: []
       }
+      player_manual_kills: {
+        Row: {
+          kills: number
+          updated_at: string
+          uuid: string
+        }
+        Insert: {
+          kills?: number
+          updated_at?: string
+          uuid: string
+        }
+        Update: {
+          kills?: number
+          updated_at?: string
+          uuid?: string
+        }
+        Relationships: []
+      }
       player_stat_adjustments: {
         Row: {
           created_at: string
@@ -529,6 +547,10 @@ export type Database = {
       join_voice_room: {
         Args: { _id: string; _password: string }
         Returns: string
+      }
+      set_player_kills: {
+        Args: { _kills: number; _uuid: string }
+        Returns: undefined
       }
     }
     Enums: {

@@ -113,6 +113,13 @@
       "when": 1794171865798,
       "tag": "0015_player_stat_adjustments",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1794266503451,
+      "tag": "0016_manual_player_kills",
+      "breakpoints": true
     }
   ]
 }

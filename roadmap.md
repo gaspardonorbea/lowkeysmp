@@ -1,4 +1,5 @@
 # LowkeySMP
+- [ ] Alle kills op nul zetten, server-kills negeren en handmatige kills in Beheer toevoegen en testen.
 - [x] Extra animaties en echt logo in de navigatie.
 - [x] Bankoverschrijving tonen met kopieerknop.
 - [ ] Likes en reacties zonder login, met naam bij reacties en veilige verwijdering.

@@ -28,7 +28,7 @@ export function ManualKills() {
   return <section className="mb-6 border-y border-border py-4">
     <h3 className="mb-3 flex items-center gap-2 font-pixel text-primary"><Swords className="size-4" /> Kills</h3>
     <form onSubmit={save} className="flex flex-wrap items-end gap-3">
-      <label className="min-w-0 flex-1 text-sm">Speler
+      <label className="w-full min-w-0 text-sm sm:w-auto sm:flex-1">Speler
         <select aria-label="Speler voor kills" className="field mt-1" value={uuid} onChange={(e) => {
           setUuid(e.target.value); setKills(String(stats.data?.find((p) => p.uuid === e.target.value)?.kills ?? 0)); setMessage("");
         }} disabled={busy} required>

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAnnouncements, usePlayers, useHours, useTrailers, useDonations, fmtEuro } from "@/lib/smp";
 import { sendPush } from "@/lib/notify";
 import { Skin } from "@/components/Skin";
+import { ManualKills } from "@/components/beheer/ManualKills";
 
 export function useRefresh() {
   const qc = useQueryClient();
@@ -124,6 +125,7 @@ export function Players() {
           }}>🗑 Alle stats wissen</button>
         </div>
       </div>
+      <ManualKills />
       <form onSubmit={add} className="block-card mb-4 flex flex-wrap gap-3 p-4">
         <input className="field flex-1" placeholder="Minecraft naam" value={name} onChange={(e) => setName(e.target.value)} required />
         <input className="field w-32" placeholder="Rol" value={role} onChange={(e) => setRole(e.target.value)} />

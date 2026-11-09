@@ -9,6 +9,8 @@ export const Route = createFileRoute("/seizoen-1/deaths")({
       { title: "Deaths — LowkeySMP" },
       { name: "description", content: "Het death log van seizoen 1: wie ging dood, wanneer en waarom." },
       { property: "og:title", content: "Deaths — LowkeySMP" },
+      { property: "og:description", content: "Het death log van seizoen 1: wie ging dood, wanneer en waarom." },
+      { name: "twitter:card", content: "summary" },
       { property: "og:type", content: "website" },
     ],
   }),

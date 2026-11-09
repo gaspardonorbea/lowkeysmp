@@ -1,9 +1,9 @@
 export type SkinKind = "head" | "bust" | "body";
 
-/** Several skin servers in a row: when one is down or does not know the name, the next one is tried. */
+/** Crafthead resolves current profiles; the other providers remain outage fallbacks. */
 export function skinCandidates(name: string, kind: SkinKind, size: number): string[] {
   const n = encodeURIComponent(name.trim());
-  if (kind === "head") return [`https://mc-heads.net/avatar/${n}/${size}`, `https://minotar.net/helm/${n}/${size}.png`, `https://crafatar.com/avatars/${n}?size=${size}&overlay`];
+  if (kind === "head") return [`https://crafthead.net/avatar/${n}/${size}`, `https://mc-heads.net/avatar/${n}/${size}`, `https://minotar.net/helm/${n}/${size}.png`];
   if (kind === "bust") return [`https://minotar.net/armor/bust/${n}/${size}.png`, `https://mc-heads.net/head/${n}/${size}`];
   return [`https://mc-heads.net/body/${n}/${size}`, `https://minotar.net/armor/body/${n}/${size}.png`];
 }

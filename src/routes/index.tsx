@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import hero from "@/assets/hero-lowkeysmp.jpg";
-import logo from "@/assets/logo-smp.png.asset.json";
 import { usePlayers, useHours } from "@/lib/smp";
 import { TOPICS } from "@/lib/notify";
 import { track } from "@/lib/track";
@@ -82,7 +81,7 @@ function Index() {
         <div className="hero-shade absolute inset-0" />
         <div className="hero-glow pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
         <div className="relative z-10 px-5 py-12 text-center">
-          <div className="pop-in"><img src={logo.url} onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = "/logo-smp-local.png"; }} alt="LowkeySMP" className="float-slow mx-auto w-[min(440px,80vw)] drop-shadow-[0_10px_36px_rgba(0,0,0,0.55)]" /></div>
+          <div className="pop-in"><img src="/logo-smp-local.png" alt="LowkeySMP" className="float-slow mx-auto w-[min(440px,80vw)] drop-shadow-[0_10px_36px_rgba(0,0,0,0.55)]" /></div>
           <T k="hero.tagline" def="lowkey peak." as="p" className="pop-in mt-3 block font-pixel text-3xl text-foreground md:text-4xl" />
           <Countdown />
           <div className="pop-in mt-8 flex flex-wrap justify-center gap-4" style={{ animationDelay: "300ms" }}>

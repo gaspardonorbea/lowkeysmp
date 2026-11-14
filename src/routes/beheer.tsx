@@ -4,7 +4,6 @@ import type { Session } from "@supabase/supabase-js";
 import { BarChart3, Eye, EyeOff, Heart, Clock, LogOut, Megaphone, Pencil, Search, Settings as Cog, ShieldCheck, Skull, Users, Video, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { BEHEER_EMAIL } from "@/lib/beheer-config";
-import logo from "@/assets/logo-smp.png.asset.json";
 import hero from "@/assets/hero-lowkeysmp.jpg";
 import { Overview } from "@/components/beheer/Overview";
 import { SkinLookup } from "@/components/beheer/SkinLookup";
@@ -47,7 +46,7 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 function Logo({ className = "" }: { className?: string }) {
-  return <img src={logo.url} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/logo-smp-local.png"; }} alt="LowkeySMP" className={className} />;
+  return <img src="/logo-smp-local.png" alt="LowkeySMP" className={className} />;
 }
 
 function Beheer() {

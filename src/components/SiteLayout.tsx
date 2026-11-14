@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Copy, Check, Menu, Settings, X } from "lucide-react";
-import logo from "@/assets/logo-smp.png.asset.json";
 import { useServerIp } from "@/components/ServerExtras";
 import { T } from "@/lib/cms";
 import { AdminBar } from "@/components/AdminBar";
@@ -21,8 +20,7 @@ function Logo() {
   return (
     <Link to="/" aria-label="LowkeySMP, naar de hoofdpagina" className="nav-logo shrink-0">
       <img
-        src={logo.url}
-        onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = "/logo-smp-local.png"; }}
+        src="/logo-smp-local.png"
         alt="LowkeySMP"
         className="h-10 w-28 object-contain"
       />

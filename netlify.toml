@@ -4,3 +4,6 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # These are the public Supabase values that every browser gets anyway.
+  # Netlify's scanner would otherwise stop the build because they appear in the site files.
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_PROJECT_ID,SUPABASE_PUBLISHABLE_KEY,SUPABASE_URL,VITE_SUPABASE_PROJECT_ID,VITE_SUPABASE_PUBLISHABLE_KEY,VITE_SUPABASE_URL"
